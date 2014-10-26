@@ -186,3 +186,46 @@ func NewStage(background uint32) *Stage {
 func wrapStage(object js.Object) *Stage {
 	return &Stage{DisplayObjectContainer: wrapDisplayObjectContainer(object)}
 }
+
+type MovieClip struct {
+	*Sprite
+	AnimationSpeed int  `js:"animationSpeed"`
+	Loop           bool `js:"loop"`
+}
+
+func NewMovieClip(textures []*Texture) *MovieClip {
+	objs := make([]js.Object, 0, len(textures))
+	for _, t := range textures {
+		objs = append(objs, t.Object)
+	}
+
+	return &MovieClip{
+		Sprite: wrapSprite(pkg.Get("MovieClip").New(objs)),
+	}
+}
+
+func (m *MovieClip) OnComplete(cb func()) {
+	m.Set("onComplete", cb)
+}
+
+func (m *MovieClip) CurrentFrame() float64 {
+	return m.Get("currentFrame").Float()
+}
+
+func (m *MovieClip) Playing() bool {
+	return m.Get("playing").Bool()
+}
+
+func (m *MovieClip) TotalFrames() int {
+	return m.Get("totalFrames").Int()
+}
+
+func (m *MovieClip) GotoAndPlay(frameNumber int) {
+	m.Call("gotoAndPlay", frameNumber)
+}
+
+func MovieClipFromImages(urls []string) *MovieClip {
+	return &MovieClip{
+		Sprite: wrapSprite(pkg.Get("MovieClip").Call("fromImages", urls)),
+	}
+}
