@@ -134,3 +134,11 @@ func (d DisplayObjectContainer) RemoveChildren(start, end int) {
 func (d DisplayObjectContainer) RemoveAllChildren() {
 	d.Call("removeChildren")
 }
+
+type SpriteBatch struct {
+	js.Object
+}
+
+func NewSpriteBatch() *SpriteBatch {
+	return &SpriteBatch{wrapDisplayObjectContainer(pkg.Get("SpriteBatch").New())}
+}
