@@ -34,9 +34,9 @@ func onAssetsLoaded() {
 		explosion.Scale.SetTo(0.75 + rand.Float64()*0.5)
 		explosion.GotoAndPlay(rand.Int() % 27)
 		stage.AddChild(explosion)
-
-		raf.RequestAnimationFrame(animate)
 	}
+
+	raf.RequestAnimationFrame(animate)
 }
 
 func animate(t float32) {
