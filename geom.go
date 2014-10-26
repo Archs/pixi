@@ -9,9 +9,9 @@ type Point struct {
 }
 
 func (p Point) Set(x, y float32) {
-	p.Object.Call("set", x, y)
+	p.Call("set", x, y)
 }
 
 func (p Point) SetTo(v float32) {
-	p.Object.Call("set", v)
+	p.Call("set", v)
 }

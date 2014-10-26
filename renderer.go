@@ -8,7 +8,7 @@ type Renderer struct {
 }
 
 func (r Renderer) Render(stage Stage) {
-	r.Object.Call("render", stage.Object)
+	r.Call("render", stage.Object)
 }
 
 func AutoDetectRenderer(width, height int) Renderer {
