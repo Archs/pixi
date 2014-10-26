@@ -7,7 +7,7 @@ type Renderer struct {
 	View js.Object `js:"view"`
 }
 
-func (r Renderer) Render(stage Stage) {
+func (r Renderer) Render(stage *Stage) {
 	r.Call("render", stage.Object)
 }
 

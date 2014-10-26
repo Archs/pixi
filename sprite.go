@@ -5,9 +5,9 @@ type Sprite struct {
 	Anchor Point
 }
 
-func NewSprite(texture Texture) Sprite {
+func NewSprite(texture *Texture) *Sprite {
 	object := pkg.Get("Sprite").New(texture.Object)
-	return Sprite{
+	return &Sprite{
 		DisplayObjectContainer: wrapDisplayObjectContainer(object),
 		Anchor:                 Point{Object: object.Get("anchor")},
 	}

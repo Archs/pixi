@@ -6,6 +6,6 @@ type Texture struct {
 	js.Object
 }
 
-func TextureFromImage(url string, crossOrigin bool, scaleMode int) Texture {
-	return Texture{Object: pkg.Get("Texture").Call("fromImage", url, crossOrigin, scaleMode)}
+func TextureFromImage(url string, crossOrigin bool, scaleMode int) *Texture {
+	return &Texture{Object: pkg.Get("Texture").Call("fromImage", url, crossOrigin, scaleMode)}
 }
