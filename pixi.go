@@ -45,3 +45,21 @@ type scaleModes struct {
 	Linear  int `js:"LINEAR"`
 	Nearest int `js:"NEAREST"`
 }
+
+type InteractionData struct {
+	js.Object
+	Global        Point
+	Target        *Sprite
+	OriginalEvent js.Object
+}
+
+func wrapInteractionData(object js.Object) *InteractionData {
+	return &InteractionData{
+		Object:        object,
+		Global:        Point{Object: object.Get("global")},
+		Target:        wrapSprite(object.Get("target")),
+		OriginalEvent: object.Get("originalEvent"),
+	}
+}
+
+type ID func(data *InteractionData)

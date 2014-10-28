@@ -82,6 +82,52 @@ func (d *DisplayObject) SetFilterArea(rectangle Rectangle) {
 	d.Set("filterArea", rectangle.Object)
 }
 
+func (d *DisplayObject) MouseDown(cb func()) {
+	d.Set("mousedown", cb)
+}
+
+func (d *DisplayObject) MouseUp(cb func()) {
+	d.Set("mouseup", cb)
+}
+
+func (d *DisplayObject) MouseUpOutside(cb func()) {
+	d.Set("mouseupoutside", cb)
+}
+
+func (d *DisplayObject) MouseOver(cb func()) {
+	d.Set("mouseover", cb)
+}
+
+func (d *DisplayObject) MouseOut(cb func()) {
+	d.Set("mouseout", cb)
+}
+
+func (d *DisplayObject) Click(cb func()) {
+	d.Set("click", cb)
+}
+
+func (d *DisplayObject) TouchStart(cb func()) {
+	d.Set("touchstart", cb)
+}
+
+func (d *DisplayObject) TouchEnd(cb func()) {
+	d.Set("touchend", cb)
+}
+
+func (d *DisplayObject) TouchEndOutside(cb func()) {
+	d.Set("touchendoutside", cb)
+}
+
+func (d *DisplayObject) Tap(cb func()) {
+	d.Set("tap", cb)
+}
+
+func (d *DisplayObject) ClickID(cb ID) {
+	d.Set("click", func(data js.Object) {
+		cb(wrapInteractionData(data))
+	})
+}
+
 // TODO: mask
 // TODO: filters
 
