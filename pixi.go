@@ -62,4 +62,6 @@ func wrapInteractionData(object js.Object) *InteractionData {
 	}
 }
 
-type ID func(data *InteractionData)
+func (id *InteractionData) LocalPosition(do displayObject) Point {
+	return Point{Object: id.Call("getLocalPosition", do.displayer())}
+}

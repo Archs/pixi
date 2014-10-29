@@ -55,17 +55,12 @@ func NewButton(x, y float64, upTex, downTex, overTex *pixi.Texture) *Button {
 	return button
 }
 
-func (button *Button) OnTap(cb func()) {
+func (button *Button) OnTap(cb func(*pixi.InteractionData)) {
 	button.Click(cb)
 	button.Tap(cb)
 }
 
-func (button *Button) down() {
-	button.isDown = true
-	button.SetTexture(button.downTex)
-}
-
-func (button *Button) up() {
+func (button *Button) up(data *pixi.InteractionData) {
 	button.isDown = false
 	if button.isOver {
 		button.SetTexture(button.overTex)
@@ -74,14 +69,19 @@ func (button *Button) up() {
 	}
 }
 
-func (button *Button) over() {
+func (button *Button) down(data *pixi.InteractionData) {
+	button.isDown = true
+	button.SetTexture(button.downTex)
+}
+
+func (button *Button) over(data *pixi.InteractionData) {
 	button.isOver = true
 	if !button.isDown {
 		button.SetTexture(button.overTex)
 	}
 }
 
-func (button *Button) out() {
+func (button *Button) out(data *pixi.InteractionData) {
 	button.isOver = false
 	if !button.isDown {
 		button.SetTexture(button.upTex)
@@ -113,7 +113,7 @@ func main() {
 	for i := 0; i < len(coords)/2; i++ {
 		button := NewButton(coords[i*2], coords[i*2+1], upTex, downTex, overTex)
 
-		button.OnTap(func() {
+		button.OnTap(func(data *pixi.InteractionData) {
 			println("CLICK")
 		})
 

@@ -82,47 +82,73 @@ func (d *DisplayObject) SetFilterArea(rectangle Rectangle) {
 	d.Set("filterArea", rectangle.Object)
 }
 
-func (d *DisplayObject) MouseDown(cb func()) {
-	d.Set("mousedown", cb)
+func (d *DisplayObject) MouseDown(cb func(*InteractionData)) {
+	d.Set("mousedown", func(data js.Object) {
+		cb(wrapInteractionData(data))
+	})
 }
 
-func (d *DisplayObject) MouseUp(cb func()) {
-	d.Set("mouseup", cb)
+func (d *DisplayObject) MouseUp(cb func(*InteractionData)) {
+	d.Set("mouseup", func(data js.Object) {
+		cb(wrapInteractionData(data))
+	})
 }
 
-func (d *DisplayObject) MouseUpOutside(cb func()) {
-	d.Set("mouseupoutside", cb)
+func (d *DisplayObject) MouseUpOutside(cb func(*InteractionData)) {
+	d.Set("mouseupoutside", func(data js.Object) {
+		cb(wrapInteractionData(data))
+	})
 }
 
-func (d *DisplayObject) MouseOver(cb func()) {
-	d.Set("mouseover", cb)
+func (d *DisplayObject) MouseOver(cb func(*InteractionData)) {
+	d.Set("mouseover", func(data js.Object) {
+		cb(wrapInteractionData(data))
+	})
 }
 
-func (d *DisplayObject) MouseOut(cb func()) {
-	d.Set("mouseout", cb)
+func (d *DisplayObject) MouseOut(cb func(*InteractionData)) {
+	d.Set("mouseout", func(data js.Object) {
+		cb(wrapInteractionData(data))
+	})
 }
 
-func (d *DisplayObject) Click(cb func()) {
-	d.Set("click", cb)
+func (d *DisplayObject) MouseMove(cb func(*InteractionData)) {
+	d.Set("mousemove", func(data js.Object) {
+		cb(wrapInteractionData(data))
+	})
 }
 
-func (d *DisplayObject) TouchStart(cb func()) {
-	d.Set("touchstart", cb)
+func (d *DisplayObject) TouchStart(cb func(*InteractionData)) {
+	d.Set("touchstart", func(data js.Object) {
+		cb(wrapInteractionData(data))
+	})
 }
 
-func (d *DisplayObject) TouchEnd(cb func()) {
-	d.Set("touchend", cb)
+func (d *DisplayObject) TouchEnd(cb func(*InteractionData)) {
+	d.Set("touchend", func(data js.Object) {
+		cb(wrapInteractionData(data))
+	})
 }
 
-func (d *DisplayObject) TouchEndOutside(cb func()) {
-	d.Set("touchendoutside", cb)
+func (d *DisplayObject) TouchEndOutside(cb func(*InteractionData)) {
+	d.Set("touchendoutside", func(data js.Object) {
+		cb(wrapInteractionData(data))
+	})
 }
 
-func (d *DisplayObject) Tap(cb func()) {
-	d.Set("tap", cb)
+func (d *DisplayObject) TouchMove(cb func(*InteractionData)) {
+	d.Set("touchmove", func(data js.Object) {
+		cb(wrapInteractionData(data))
+	})
 }
 
-func (d *DisplayObject) ClickID(cb ID) {
+func (d *DisplayObject) Tap(cb func(*InteractionData)) {
+	d.Set("tap", func(data js.Object) {
+		cb(wrapInteractionData(data))
+	})
+}
+
+func (d *DisplayObject) Click(cb func(*InteractionData)) {
 	d.Set("click", func(data js.Object) {
 		cb(wrapInteractionData(data))
 	})
