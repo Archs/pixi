@@ -2,7 +2,7 @@
 
 ## Install
 
-We use gopkg.in for imports in order to provide different versions of the library that you can count on not to change. The .v## at the end of the import specifies the Pixi.js major version. For example, v20 will wraps version 2.0.x, v21 would wrap version 2.1.x.
+We use gopkg.in for imports in order to provide different versions of the library that you can count on not to change. The .v## at the end of the import specifies the Pixi.js major version. For example, v20 wraps version 2.0.x and v21 would wrap version 2.1.x.
 
 ```bash
 go get gopkg.in/ajhager/pixi.v20
