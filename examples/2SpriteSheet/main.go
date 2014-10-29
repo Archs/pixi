@@ -4,8 +4,8 @@ import (
 	"math"
 	"math/rand"
 
-	"github.com/ajhager/pixi"
 	"github.com/ajhager/raf"
+	"gopkg.in/ajhager/pixi.v20"
 
 	"github.com/gopherjs/gopherjs/js"
 )
