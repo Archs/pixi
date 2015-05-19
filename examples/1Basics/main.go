@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/ajhager/raf"
-	"gopkg.in/ajhager/pixi.v20"
+	"github.com/Archs/js/raf"
+	"github.com/Archs/pixi"
 
 	"github.com/gopherjs/gopherjs/js"
 )
