@@ -4,7 +4,7 @@ import "github.com/gopherjs/gopherjs/js"
 
 // Point
 type Point struct {
-	js.Object
+	*js.Object
 	X float64 `js:"x"`
 	Y float64 `js:"y"`
 }
@@ -27,7 +27,7 @@ func (p Point) Clone() Point {
 
 // Rectangle
 type Rectangle struct {
-	js.Object
+	*js.Object
 	X      float64 `js:"x"`
 	Y      float64 `js:"y"`
 	Width  float64 `js:"width"`

@@ -3,7 +3,7 @@ package pixi
 import "github.com/gopherjs/gopherjs/js"
 
 type Texture struct {
-	js.Object
+	*js.Object
 }
 
 func TextureFromImage(url string, crossOrigin bool, scaleMode int) *Texture {

@@ -7,7 +7,7 @@ type displayObject interface {
 }
 
 type DisplayObject struct {
-	js.Object
+	*js.Object
 	Position      Point
 	Scale         Point
 	Pivot         Point
@@ -23,7 +23,7 @@ type DisplayObject struct {
 	Y             float64 `js:"y"`
 }
 
-func wrapDisplayObject(object js.Object) *DisplayObject {
+func wrapDisplayObject(object *js.Object) *DisplayObject {
 	return &DisplayObject{
 		Object:   object,
 		Position: Point{Object: object.Get("position")},
@@ -33,7 +33,7 @@ func wrapDisplayObject(object js.Object) *DisplayObject {
 }
 
 // displayer satisfies the displayObject interface.
-func (d *DisplayObject) displayer() js.Object {
+func (d *DisplayObject) displayer() *js.Object {
 	return d.Object
 }
 
@@ -83,73 +83,73 @@ func (d *DisplayObject) SetFilterArea(rectangle Rectangle) {
 }
 
 func (d *DisplayObject) MouseDown(cb func(*InteractionData)) {
-	d.Set("mousedown", func(data js.Object) {
+	d.Set("mousedown", func(data *js.Object) {
 		cb(wrapInteractionData(data))
 	})
 }
 
 func (d *DisplayObject) MouseUp(cb func(*InteractionData)) {
-	d.Set("mouseup", func(data js.Object) {
+	d.Set("mouseup", func(data *js.Object) {
 		cb(wrapInteractionData(data))
 	})
 }
 
 func (d *DisplayObject) MouseUpOutside(cb func(*InteractionData)) {
-	d.Set("mouseupoutside", func(data js.Object) {
+	d.Set("mouseupoutside", func(data *js.Object) {
 		cb(wrapInteractionData(data))
 	})
 }
 
 func (d *DisplayObject) MouseOver(cb func(*InteractionData)) {
-	d.Set("mouseover", func(data js.Object) {
+	d.Set("mouseover", func(data *js.Object) {
 		cb(wrapInteractionData(data))
 	})
 }
 
 func (d *DisplayObject) MouseOut(cb func(*InteractionData)) {
-	d.Set("mouseout", func(data js.Object) {
+	d.Set("mouseout", func(data *js.Object) {
 		cb(wrapInteractionData(data))
 	})
 }
 
 func (d *DisplayObject) MouseMove(cb func(*InteractionData)) {
-	d.Set("mousemove", func(data js.Object) {
+	d.Set("mousemove", func(data *js.Object) {
 		cb(wrapInteractionData(data))
 	})
 }
 
 func (d *DisplayObject) TouchStart(cb func(*InteractionData)) {
-	d.Set("touchstart", func(data js.Object) {
+	d.Set("touchstart", func(data *js.Object) {
 		cb(wrapInteractionData(data))
 	})
 }
 
 func (d *DisplayObject) TouchEnd(cb func(*InteractionData)) {
-	d.Set("touchend", func(data js.Object) {
+	d.Set("touchend", func(data *js.Object) {
 		cb(wrapInteractionData(data))
 	})
 }
 
 func (d *DisplayObject) TouchEndOutside(cb func(*InteractionData)) {
-	d.Set("touchendoutside", func(data js.Object) {
+	d.Set("touchendoutside", func(data *js.Object) {
 		cb(wrapInteractionData(data))
 	})
 }
 
 func (d *DisplayObject) TouchMove(cb func(*InteractionData)) {
-	d.Set("touchmove", func(data js.Object) {
+	d.Set("touchmove", func(data *js.Object) {
 		cb(wrapInteractionData(data))
 	})
 }
 
 func (d *DisplayObject) Tap(cb func(*InteractionData)) {
-	d.Set("tap", func(data js.Object) {
+	d.Set("tap", func(data *js.Object) {
 		cb(wrapInteractionData(data))
 	})
 }
 
 func (d *DisplayObject) Click(cb func(*InteractionData)) {
-	d.Set("click", func(data js.Object) {
+	d.Set("click", func(data *js.Object) {
 		cb(wrapInteractionData(data))
 	})
 }
@@ -168,7 +168,7 @@ func NewDisplayObjectContainer() *DisplayObjectContainer {
 	return wrapDisplayObjectContainer(pkg.Get("DisplayObjectContainer").New())
 }
 
-func wrapDisplayObjectContainer(object js.Object) *DisplayObjectContainer {
+func wrapDisplayObjectContainer(object *js.Object) *DisplayObjectContainer {
 	return &DisplayObjectContainer{DisplayObject: wrapDisplayObject(object)}
 }
 
@@ -219,7 +219,7 @@ func NewSprite(texture *Texture) *Sprite {
 	return wrapSprite(object)
 }
 
-func wrapSprite(object js.Object) *Sprite {
+func wrapSprite(object *js.Object) *Sprite {
 	return &Sprite{
 		DisplayObjectContainer: wrapDisplayObjectContainer(object),
 		Anchor:                 Point{Object: object.Get("anchor")},
@@ -240,11 +240,11 @@ func SpriteFromImage(imageId string, crossOrigin bool, scaleMode int) *Sprite {
 }
 
 type SpriteBatch struct {
-	js.Object
+	*js.Object
 }
 
 func NewSpriteBatch() *SpriteBatch {
-	return &SpriteBatch{wrapDisplayObjectContainer(pkg.Get("SpriteBatch").New())}
+	return &SpriteBatch{wrapDisplayObjectContainer(pkg.Get("SpriteBatch").New()).Object}
 }
 
 type Stage struct {
@@ -255,7 +255,7 @@ func NewStage(background uint32) *Stage {
 	return wrapStage(pkg.Get("Stage").New(background))
 }
 
-func wrapStage(object js.Object) *Stage {
+func wrapStage(object *js.Object) *Stage {
 	return &Stage{DisplayObjectContainer: wrapDisplayObjectContainer(object)}
 }
 
@@ -266,7 +266,7 @@ type MovieClip struct {
 }
 
 func NewMovieClip(textures []*Texture) *MovieClip {
-	objs := make([]js.Object, 0, len(textures))
+	objs := make([]*js.Object, 0, len(textures))
 	for _, t := range textures {
 		objs = append(objs, t.Object)
 	}

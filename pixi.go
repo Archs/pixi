@@ -11,13 +11,13 @@ var (
 	WEBGL_RENDERER  = pkg.Get("WEBGL_RENDERER").Int()
 	CANVAS_RENDERER = pkg.Get("WEBGL_RENDERER").Int()
 
-	VERSION = pkg.Get("VERSION").Str()
+	VERSION = pkg.Get("VERSION").String()
 )
 
 var BlendModes = blendModes{Object: pkg.Get("blendModes")}
 
 type blendModes struct {
-	js.Object
+	*js.Object
 	Normal     int `js:"NORMAL"`
 	Add        int `js:"ADD"`
 	Multiply   int `js:"MULTIPLY"`
@@ -40,20 +40,20 @@ type blendModes struct {
 var ScaleModes = scaleModes{Object: pkg.Get("scaleModes")}
 
 type scaleModes struct {
-	js.Object
+	*js.Object
 	Default int `js:"DEFAULT"`
 	Linear  int `js:"LINEAR"`
 	Nearest int `js:"NEAREST"`
 }
 
 type InteractionData struct {
-	js.Object
+	*js.Object
 	Global        Point
 	Target        *Sprite
-	OriginalEvent js.Object
+	OriginalEvent *js.Object
 }
 
-func wrapInteractionData(object js.Object) *InteractionData {
+func wrapInteractionData(object *js.Object) *InteractionData {
 	return &InteractionData{
 		Object:        object,
 		Global:        Point{Object: object.Get("global")},

@@ -3,7 +3,7 @@ package pixi
 import "github.com/gopherjs/gopherjs/js"
 
 type Renderer struct {
-	js.Object
+	*js.Object
 	View js.Object `js:"view"`
 }
 
