@@ -3,7 +3,7 @@ package pixi
 import "github.com/gopherjs/gopherjs/js"
 
 type AssetLoader struct {
-	js.Object
+	*js.Object
 }
 
 func NewAssetLoader(urls []string, crossOrigin bool) *AssetLoader {
