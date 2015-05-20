@@ -3,7 +3,7 @@ package pixi
 import "github.com/gopherjs/gopherjs/js"
 
 type displayObject interface {
-	displayer() js.Object
+	displayer() *js.Object
 }
 
 type DisplayObject struct {
