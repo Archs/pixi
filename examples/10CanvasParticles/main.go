@@ -14,6 +14,7 @@ var (
 	COLOURS = []string{"#69D2E7", "#A7DBD8", "#E0E4CC", "#F38630", "#FA6900", "#FF4E50", "#F9D423"}
 	ctx     *canvas.Context2D
 	cw, ch  float64
+	counter = 0
 )
 
 type Particle struct {
@@ -70,10 +71,10 @@ func (p *Particle) remove() {
 }
 
 func run(t float64) {
+	counter += 1
 	defer raf.RequestAnimationFrame(run)
-	n := int64(t)
 	// frame control
-	if n%3 != 0 {
+	if counter%2 != 0 {
 		return
 	}
 	if ps.Len() > 0 {
@@ -107,7 +108,8 @@ func main() {
 			makeParticles(x, y, 5)
 		})
 		ctx = el.GetContext2D()
+		ctx.GlobalCompositeOperation = canvas.CompositeLighter
 		dom.Body().AppendChild(el.Element)
-		raf.RequestAnimationFrame(run)
+		run(0)
 	})
 }
