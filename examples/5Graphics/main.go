@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	stage    = pixi.NewStage(0x872324)
+	stage    = pixi.NewStage(0xf2f2f2)
 	renderer pixi.Renderer
 	bs       = []*Ball{}
 )
@@ -44,8 +44,8 @@ func run(t float64) {
 	for _, b := range bs {
 		b.draw(t)
 	}
-	defer raf.RequestAnimationFrame(run)
 	renderer.Render(stage)
+	raf.RequestAnimationFrame(run)
 }
 
 func main() {
@@ -57,16 +57,6 @@ func main() {
 		stage.AddChild(b)
 	})
 	g := newBall()
-	// elps := pixi.NewEllipse(100, 200, 100, 50)
-	// g.DrawShape(elps)
-	// g.DrawShape(pixi.NewCircle(100, 200, 80))
-	// g.DrawShape(pixi.NewRectangle(100, 200, 40, 40))
-	// g.DrawShape(pixi.NewPolygon(2, 50, 80, 90, 120, 70))
-	// g.DrawShape(pixi.NewPolygon(pixi.NewPoint(90, 90),
-	// 	pixi.NewPoint(120, 120),
-	// 	pixi.NewPoint(90, 110),
-	// 	pixi.NewPoint(90, 90),
-	// ))
 	stage.AddChild(g)
 	dom.OnDOMContentLoaded(func() {
 		println("dom loaded")
@@ -74,7 +64,6 @@ func main() {
 		v := dom.Wrap(renderer.View)
 		v.Width = dom.Window().InnerWidth
 		v.Height = dom.Window().InnerHeight
-
 		dom.Body().AppendChild(v)
 		raf.RequestAnimationFrame(run)
 	})
