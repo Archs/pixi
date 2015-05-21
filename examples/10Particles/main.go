@@ -33,13 +33,14 @@ type Particle struct {
 func newParticle(x, y float64) *Particle {
 	b := &Particle{
 		Graphics: pixi.NewGraphics(),
-		x:        x,
-		y:        y,
-		radius:   5 + 30*rand.Float64(),
-		theta:    2 * math.Pi * rand.Float64(),
-		force:    2 + 8*rand.Float64(),
-		damping:  0.9 + 0.1*rand.Float64(),
-		color:    COLOURS[rand.Intn(7)],
+		// Graphics: ctx,
+		x:       x,
+		y:       y,
+		radius:  5 + 30*rand.Float64(),
+		theta:   2 * math.Pi * rand.Float64(),
+		force:   2 + 8*rand.Float64(),
+		damping: 0.92,
+		color:   COLOURS[rand.Intn(7)],
 	}
 	b.vx = b.force * math.Sin(b.theta)
 	b.vy = b.force * math.Cos(b.theta)
@@ -50,7 +51,7 @@ func newParticle(x, y float64) *Particle {
 func (g *Particle) draw(t float64) {
 	g.Clear()
 	// update
-	g.radius *= 0.96
+	g.radius *= 0.9
 	if g.radius < 1 {
 		g.remove()
 		return
@@ -58,8 +59,8 @@ func (g *Particle) draw(t float64) {
 	g.x += g.vx
 	g.y += g.vy
 	// g.theta = 2 * math.Pi * rand.Float64()
-	g.vx *= g.damping
-	g.vy *= g.damping
+	// g.vx *= g.damping
+	// g.vy *= g.damping
 	// g.vx += math.Sin(g.theta) * 0.1
 	// g.vy += math.Cos(g.theta) * 0.1
 	// draw
@@ -80,6 +81,7 @@ func run(t float64) {
 		return
 	}
 	if ps.Len() > 0 {
+		// ctx.Clear()
 		for e := ps.Front(); e != nil; e = e.Next() {
 			p := e.Value.(*Particle)
 			p.draw(t)
