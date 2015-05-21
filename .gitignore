@@ -1,0 +1,4 @@
+/node-syscall/build
+/node_modules
+*.db
+*.map
