@@ -8,8 +8,10 @@ type displayObject interface {
 
 type DisplayObject struct {
 	*js.Object
-	Position      Point
-	Scale         Point
+	// The coordinate of the object relative to the local coordinates of the parent.
+	Position Point
+	Scale    Point
+	// The pivot point of the displayObject that it rotates around
 	Pivot         Point
 	Rotation      float64 `js:"rotation"`
 	Alpha         float64 `js:"alpha"`
@@ -209,7 +211,13 @@ func (d DisplayObjectContainer) RemoveAllChildren() {
 
 type Sprite struct {
 	*DisplayObjectContainer
-	Anchor    Point
+	// The anchor sets the origin point of the texture.
+	// The default is 0,0 this means the texture's origin is the top left
+	// Setting the anchor to 0.5,0.5 means the texture's origin is centered
+	// Setting the anchor to 1,1 would mean the texture's origin point will be the bottom right corner
+	Anchor Point
+	// The tint applied to the sprite.
+	// This is a hex value. A value of 0xFFFFFF will remove any tint effect.
 	Tint      uint32 `js:"tint"`
 	BlendMode int    `js:"blendMode"`
 }
@@ -292,6 +300,7 @@ func (m *MovieClip) TotalFrames() int {
 	return m.Get("totalFrames").Int()
 }
 
+// Goes to a specific frame and begins playing the MovieClip
 func (m *MovieClip) GotoAndPlay(frameNumber int) {
 	m.Call("gotoAndPlay", frameNumber)
 }

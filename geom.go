@@ -13,6 +13,7 @@ func NewPoint(x, y, width, height float64) Point {
 	return Point{Object: pkg.Get("Point").New(x, y)}
 }
 
+// Sets the point to a new x and y position. If y is omitted, both x and y will be set to x.
 func (p Point) Set(x, y float64) {
 	p.Call("set", x, y)
 }
