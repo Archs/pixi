@@ -95,14 +95,15 @@ func main() {
 	dom.OnDOMContentLoaded(func() {
 		dom.Body().Style.SetProperty("margin", "0")
 		el := canvas.New(dom.CreateElement("canvas").Object)
-		el.Width = dom.Window().InnerWidth
-		el.Height = dom.Window().InnerHeight
-		cw = float64(el.Width)
-		ch = float64(el.Height)
+		cw = float64(dom.Window().InnerWidth)
+		ch = float64(dom.Window().InnerHeight)
+		// cw = 800
+		// ch = 600
+		el.Width = int(cw)
+		el.Height = int(ch)
 		el.AddEventListener(dom.EvtMousemove, func(e *dom.Event) {
 			x := float64(e.ClientX)
 			y := float64(e.ClientY)
-			println("EvtMousemove:", x, y)
 			makeParticles(x, y, 5)
 		})
 		ctx = el.GetContext2D()
