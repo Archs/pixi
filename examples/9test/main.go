@@ -49,5 +49,19 @@ func run() {
 }
 
 func main() {
-	dom.OnDOMContentLoaded(run)
+	stage.Interactive = true
+	stage.HitArea = pixi.NewRectangle(0, 0, 300, 300)
+	dom.OnDOMContentLoaded(func() {
+		print(stage, stage.Height, stage.Width)
+		stage.On(pixi.EventClick, func(ed *pixi.InteractionEvent) {
+			println("EventClick", ed.Data.Global)
+		}).On(pixi.EventMouseClick, func(ed *pixi.InteractionEvent) {
+			println("EventMouseClick", ed.Data.Global)
+			// }).On(pixi.EventMouseMove, func(ed *pixi.InteractionEvent) {
+			// 	println("EventMouseMove", ed.Data.Global)
+		}).On(pixi.EventMouseUp, func(ed *pixi.InteractionEvent) {
+			println("EventMouseUp", ed.Data.Global)
+		})
+		run()
+	})
 }

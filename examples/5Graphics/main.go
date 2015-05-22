@@ -63,8 +63,8 @@ func main() {
 	g := newBall()
 	stage.AddChild(g)
 	dom.OnDOMContentLoaded(func() {
-		println("dom loaded")
-		renderer = pixi.AutoDetectRenderer(dom.Window().InnerWidth, dom.Window().InnerHeight, 0xf2f2f2)
+		renderer = pixi.AutoDetectRenderer(dom.Window().InnerWidth, dom.Window().InnerHeight, 0xffffff)
+		stage.HitArea = pixi.NewRectangle(0, 0, renderer.Width, renderer.Height)
 		v := dom.Wrap(renderer.View)
 		v.Width = dom.Window().InnerWidth
 		v.Height = dom.Window().InnerHeight
