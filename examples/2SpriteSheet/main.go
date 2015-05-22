@@ -14,7 +14,7 @@ var (
 	stage    = pixi.NewStage(0xFFFFFF)
 	renderer = pixi.AutoDetectRenderer(800, 600)
 	loader   = pixi.NewAssetLoader([]string{"SpriteSheet.json"}, false)
-	group    = pixi.NewDisplayObjectContainer()
+	group    = pixi.NewContainer()
 	aliens   = make([]*pixi.Sprite, 0)
 	count    = 0.0
 )

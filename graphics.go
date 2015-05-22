@@ -5,7 +5,7 @@ import (
 )
 
 type Graphics struct {
-	*DisplayObjectContainer
+	*Container
 
 	// blendMode number
 	//
@@ -49,7 +49,7 @@ type Graphics struct {
 func NewGraphics() *Graphics {
 	g := pkg.Get("Graphics").New()
 	return &Graphics{
-		DisplayObjectContainer: wrapDisplayObjectContainer(g),
+		Container: wrapContainer(g),
 	}
 }
 
@@ -169,7 +169,7 @@ func (g *Graphics) Clear() *Graphics {
 func (g *Graphics) Clone() *Graphics {
 	o := g.Call("clone")
 	return &Graphics{
-		DisplayObjectContainer: wrapDisplayObjectContainer(o),
+		Container: wrapContainer(o),
 	}
 }
 
