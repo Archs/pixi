@@ -236,8 +236,10 @@ func wrapContainer(object *js.Object) *Container {
 }
 
 // AddChild adds a child to the container.
-func (d Container) AddChild(do displayObject) {
-	d.Call("addChild", do.displayer())
+func (d Container) AddChild(do ...displayObject) {
+	for _, v := range do {
+		d.Call("addChild", v.displayer())
+	}
 }
 
 // AddChildAt adds a child at the specified index.

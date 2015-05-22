@@ -12,8 +12,6 @@ var (
 	renderer = pixi.AutoDetectRenderer(800, 600, 0xffffff)
 
 	snakeLen = 918.0
-
-	snake *Snake
 )
 
 type Snake struct {
@@ -39,7 +37,7 @@ func newSnake() *Snake {
 	return s
 }
 
-func (s *Snake) roll() {
+func (s *Snake) roll(float64) {
 	s.counter += 0.2
 	for i, p := range s.Points {
 		p.Y = math.Sin(s.counter+float64(i)*0.5) * 30
@@ -54,16 +52,18 @@ func (s *Snake) roll() {
 func animate(t float64) {
 	raf.RequestAnimationFrame(animate)
 	for _, s := range stage.Children {
-		s.Update()
+		s.Update(t)
 	}
 	// move the snake
 	renderer.Render(stage)
 }
 
 func main() {
-	snake = newSnake()
-	snake.Position.Set(120, 300)
-	stage.AddChild(snake)
+	snake1 := newSnake()
+	snake1.Position.Set(0, 120)
+	snake2 := newSnake()
+	snake2.Position.Set(120, 300)
+	stage.AddChild(snake1, snake2)
 	dom.OnDOMContentLoaded(func() {
 		el := dom.Wrap(renderer.View)
 		dom.Body().AppendChild(el)
