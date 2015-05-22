@@ -28,7 +28,7 @@ type DisplayObject struct {
 	//
 	// Sets the filters for the displayObject.
 	// IMPORTANT: This is a webGL only feature and will be ignored by the canvas renderer. To remove filters simply set this property to 'null'
-	filters []*Filter `js:"filters"`
+	filters []*js.Object `js:"filters"`
 
 	// mask Graphics
 	//
