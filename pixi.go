@@ -48,8 +48,12 @@ type scaleModes struct {
 
 type InteractionData struct {
 	*js.Object
-	Global        Point      `js:"global"`
-	Target        *Sprite    `js:"target"`
+
+	// This point stores the global coords of where the touch/mouse event happened
+	Global Point `js:"global"`
+	// The target Sprite that was interacted with
+	Target *Sprite `js:"target"`
+	// When passed to an event handler, this will be the original DOM Event that was captured
 	OriginalEvent *js.Object `js:"originalEvent"`
 }
 
