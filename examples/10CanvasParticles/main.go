@@ -9,12 +9,17 @@ import (
 	"math/rand"
 )
 
+const (
+	MAX_PARTICLES = 280
+)
+
 var (
-	ps      = list.New()
 	COLOURS = []string{"#69D2E7", "#A7DBD8", "#E0E4CC", "#F38630", "#FA6900", "#FF4E50", "#F9D423"}
 	ctx     *canvas.Context2D
 	cw, ch  float64
 	counter = 0
+	ps      = list.New()
+	pool    = list.New()
 )
 
 type Particle struct {
@@ -29,29 +34,46 @@ type Particle struct {
 	el      *list.Element
 }
 
-func newParticle(x, y float64) *Particle {
-	b := &Particle{
-		Context2D: ctx,
-		x:         x,
-		y:         y,
-		radius:    5 + 30*rand.Float64(),
-		theta:     2 * math.Pi * rand.Float64(),
-		force:     2 + 8*rand.Float64(),
-		damping:   0.92,
-		color:     COLOURS[rand.Intn(7)],
+func spawnParticle(x, y float64) *Particle {
+	var p *Particle
+	if ps.Len() >= MAX_PARTICLES {
+		el := ps.Front()
+		pool.PushBack(el.Value)
+		ps.Remove(el)
 	}
-	b.vx = b.force * math.Sin(b.theta)
-	b.vy = b.force * math.Cos(b.theta)
-	b.el = ps.PushBack(b)
-	return b
+	if pool.Len() > 0 {
+		el := pool.Front()
+		p = el.Value.(*Particle)
+		pool.Remove(el)
+	} else {
+		p = &Particle{
+			Context2D: ctx,
+		}
+	}
+	p.init(x, y)
+	p.el = ps.PushBack(p)
+	return p
 }
 
-func (g *Particle) draw(t float64) {
-	g.radius *= 0.9
-	if g.radius < 1 {
-		g.remove()
-		return
-	}
+func (p *Particle) init(x, y float64) {
+	p.x = x
+	p.y = y
+	p.radius = 5 + 30*rand.Float64()
+	p.theta = 2 * math.Pi * rand.Float64()
+	p.force = 2 + 8*rand.Float64()
+	p.damping = 0.92
+	p.color = COLOURS[rand.Intn(7)]
+	p.vx = p.force * math.Sin(p.theta)
+	p.vy = p.force * math.Cos(p.theta)
+}
+
+func (p *Particle) isAlive() bool {
+	return p.radius > 0.5
+}
+
+func (g *Particle) update() {
+	// update
+	g.radius *= 0.96
 	g.x += g.vx
 	g.y += g.vy
 	g.theta = 2 * math.Pi * rand.Float64()
@@ -59,6 +81,9 @@ func (g *Particle) draw(t float64) {
 	g.vy *= g.damping
 	g.vx += math.Sin(g.theta) * 0.1
 	g.vy += math.Cos(g.theta) * 0.1
+}
+
+func (g *Particle) draw(t float64) {
 	// for canvas
 	g.BeginPath()
 	g.Arc(g.x, g.y, g.radius, 0, math.Pi*2, true)
@@ -66,19 +91,26 @@ func (g *Particle) draw(t float64) {
 	g.Fill()
 }
 
-func (p *Particle) remove() {
-	ps.Remove(p.el)
-}
-
 func run(t float64) {
+	raf.RequestAnimationFrame(run)
 	counter += 1
-	defer raf.RequestAnimationFrame(run)
 	// frame control
-	if counter%2 != 0 {
+	if counter%2 == 0 {
 		return
 	}
+	// draw all the particles
 	if ps.Len() > 0 {
 		ctx.ClearRect(0, 0, cw, ch)
+		for e := ps.Front(); e != nil; e = e.Next() {
+			p := e.Value.(*Particle)
+			p.update()
+			if !p.isAlive() {
+				// println(ps.Len(), "p", p, "dead")
+				v := ps.Remove(p.el)
+				pool.PushBack(v)
+			}
+		}
+
 		for e := ps.Front(); e != nil; e = e.Next() {
 			p := e.Value.(*Particle)
 			p.draw(t)
@@ -87,8 +119,9 @@ func run(t float64) {
 }
 
 func makeParticles(x, y float64, n int) {
+	println("makeParticles:", x, y, n)
 	for i := 0; i < rand.Intn(n); i++ {
-		newParticle(x, y)
+		spawnParticle(x, y)
 	}
 }
 
@@ -103,6 +136,7 @@ func main() {
 		el.Width = int(cw)
 		el.Height = int(ch)
 		el.AddEventListener(dom.EvtMousemove, func(e *dom.Event) {
+			e.PreventDefault()
 			x := float64(e.ClientX)
 			y := float64(e.ClientY)
 			makeParticles(x, y, 5)
@@ -110,6 +144,6 @@ func main() {
 		ctx = el.GetContext2D()
 		ctx.GlobalCompositeOperation = canvas.CompositeLighter
 		dom.Body().AppendChild(el.Element)
-		run(0)
+		raf.RequestAnimationFrame(run)
 	})
 }
