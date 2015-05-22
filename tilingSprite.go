@@ -20,7 +20,7 @@ type TilingSprite struct {
 // new PIXI.extras.TilingSprite(texture, width, height)
 func NewTilingSprite(texture *Texture, width, height float64) *TilingSprite {
 	return &TilingSprite{
-		Sprite: wrapSprite(pkg.Get("extras").Get("TilingSprite").New(texture, width, height)),
+		Sprite: wrapSprite(pkg.Get("TilingSprite").New(texture, width, height)),
 	}
 }
 
@@ -40,7 +40,7 @@ func NewTilingSprite(texture *Texture, width, height float64) *TilingSprite {
 //  scaleMode	number	scaleModes.DEFAULT	optional
 //  if you want to specify the scale mode, see SCALE_MODES for possible values
 func TilingTextureFromImage(url string, width, height float64, crossOrigin bool, scaleMode int) *Texture {
-	return &Texture{Object: pkg.Get("extras").Get("TilingSprite").Call("fromImage", url, width, height, crossOrigin, scaleMode)}
+	return &Texture{Object: pkg.Get("TilingSprite").Call("fromImage", url, width, height, crossOrigin, scaleMode)}
 }
 
 // PIXI.extras.TilingSprite.fromFrame(frameId, width, height){TilingSprite}
@@ -59,5 +59,5 @@ func TilingTextureFromImage(url string, width, height float64, crossOrigin bool,
 //  Type	Description
 //  TilingSprite	A new TilingSprite using a texture from the texture cache matching the frameId
 func TilingTextureFromFrame(frameId string, width, height float64) *Texture {
-	return &Texture{Object: pkg.Get("extras").Get("TilingSprite").Call("fromFrame", frameId, width, height)}
+	return &Texture{Object: pkg.Get("TilingSprite").Call("fromFrame", frameId, width, height)}
 }
