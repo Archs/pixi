@@ -11,7 +11,7 @@ import (
 
 var (
 	stage    = pixi.NewContainer()
-	render   = pixi.AutoDetectRenderer(300, 300, 0x32232)
+	render   = pixi.AutoDetectRenderer(300, 300)
 	sprite   = pixi.SpriteFromImage("img/bunny.png", false, pixi.ScaleModes.Default)
 	lastTime = float64(0)
 	stepX    = float64(5)
@@ -51,14 +51,14 @@ func run() {
 func main() {
 	stage.Interactive = true
 	stage.HitArea = pixi.NewRectangle(0, 0, 300, 300)
+	// render.BackgroundColor = 0xff0000
+	render.Transparent = true
 	dom.OnDOMContentLoaded(func() {
-		print(stage, stage.Height, stage.Width)
+		dom.Body().Style.SetProperty("background", "blue")
 		stage.On(pixi.EventClick, func(ed *pixi.InteractionEvent) {
 			println("EventClick", ed.Data.Global)
 		}).On(pixi.EventMouseClick, func(ed *pixi.InteractionEvent) {
 			println("EventMouseClick", ed.Data.Global)
-			// }).On(pixi.EventMouseMove, func(ed *pixi.InteractionEvent) {
-			// 	println("EventMouseMove", ed.Data.Global)
 		}).On(pixi.EventMouseUp, func(ed *pixi.InteractionEvent) {
 			println("EventMouseUp", ed.Data.Global)
 		})

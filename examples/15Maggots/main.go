@@ -12,7 +12,7 @@ import (
 var (
 	stage    = pixi.NewContainer()
 	sprites  = pixi.NewParticleContainer(10000)
-	renderer = pixi.AutoDetectRenderer(800, 600, 0xffffff)
+	renderer = pixi.AutoDetectRenderer(800, 600)
 
 	maggotNum = 100
 )
