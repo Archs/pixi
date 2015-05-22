@@ -70,14 +70,14 @@ type DisplayObject struct {
 	// which can be used in the container.Children/ChildAt/GetChildByName returned instance
 	//
 	// Must be set before invoke
-	Update func() `js:"gopherjsSpecificUpdater"`
+	Update func(float64) `js:"gopherjsSpecificUpdater"`
 }
 
 func wrapDisplayObject(object *js.Object) *DisplayObject {
 	d := &DisplayObject{
 		Object: object,
 	}
-	d.Update = func() { println("base updater") }
+	d.Update = func(float64) { println("no updater defined for", d.Name) }
 	return d
 }
 
@@ -382,6 +382,7 @@ type ParticleContainer struct {
 	SetProperties func(*ParticleContainerProperties) `js:"setProperties"`
 }
 
+// [size=15000] {number} The number of images in the ParticleContainer before it flushes.
 func NewParticleContainer(size int, ps ...*ParticleContainerProperties) *ParticleContainer {
 	if len(ps) > 0 {
 		return &ParticleContainer{
