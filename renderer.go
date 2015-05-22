@@ -35,8 +35,10 @@ type Renderer struct {
 	Resolution int `js:"resolution"`
 
 	// transparent boolean
-	// Whether the render view is transparent
+	// Whether the render view is transparent, read only
 	Transparent bool `js:"transparent"`
+	// background color, settable
+	BackgroundColor float64 `js:"backgroundColor"`
 
 	// type RENDERER_TYPE
 	// The returntype of the renderer.
@@ -71,11 +73,43 @@ func (r *Renderer) Destroy(removeView bool) {
 	r.Call("destroy", removeView)
 }
 
-func AutoDetectRenderer(width, height int, backgroundColor ...int) *Renderer {
-	if len(backgroundColor) > 0 {
-		return &Renderer{Object: pkg.Call("autoDetectRenderer", width, height, js.M{
-			"backgroundColor": backgroundColor[0],
-		})}
+// export interface RendererOptions {
+//     view?: HTMLCanvasElement;
+//     transparent?: boolean
+//     antialias?: boolean;
+//     resolution?: number;
+//     clearBeforeRendering?: boolean;
+//     preserveDrawingBuffer?: boolean;
+//     forceFXAA?: boolean;
+// }
+type RendererOptions struct {
+	*js.Object
+	// transparent boolean
+	// Whether the render view is transparent
+	Transparent bool `js:"transparent"`
+	// antialias?: boolean;
+	Antialias bool `js:"antialias"`
+	// resolution?: number;
+	Resolution int `js:"resolution"`
+	// clearBeforeRendering?: boolean;
+	ClearBeforeRendering bool `js:"clearBeforeRendering"`
+	// preserveDrawingBuffer?: boolean;
+	PreserveDrawingBuffer bool `js:"preserveDrawingBuffer"`
+	// forceFXAA?: boolean;
+	ForceFXAA bool `js:"forceFXAA"`
+	// background color
+	BackgroundColor float64 `js:"backgroundColor"`
+}
+
+func NewRendererOptions() *RendererOptions {
+	return &RendererOptions{
+		Object: js.Global.Get("Object").New(),
+	}
+}
+
+func AutoDetectRenderer(width, height int, options ...*RendererOptions) *Renderer {
+	if len(options) > 0 {
+		return &Renderer{Object: pkg.Call("autoDetectRenderer", width, height, options[0])}
 	}
 	return &Renderer{Object: pkg.Call("autoDetectRenderer", width, height)}
 }
