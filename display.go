@@ -23,6 +23,20 @@ type DisplayObject struct {
 	CacheAsBitmap bool    `js:"cacheAsBitmap"`
 	X             float64 `js:"x"`
 	Y             float64 `js:"y"`
+	//
+	// 	filters Array.<Filter>
+	//
+	// Sets the filters for the displayObject.
+	// IMPORTANT: This is a webGL only feature and will be ignored by the canvas renderer. To remove filters simply set this property to 'null'
+	filters []*Filter `js:"filters"`
+
+	// mask Graphics
+	//
+	// Sets a mask for the displayObject.
+	// A mask is an object that limits the visibility of an object to the shape of the mask applied to it.
+	// In PIXI a regular mask must be a PIXI.Graphics object. This allows for much faster masking in canvas as it utilises shape clipping.
+	// To remove a mask, set this property to null.
+	Mask *Graphics `js:"mask"`
 }
 
 func wrapDisplayObject(object *js.Object) *DisplayObject {
