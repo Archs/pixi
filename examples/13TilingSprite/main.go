@@ -20,7 +20,8 @@ func run(t float64) {
 	counter += 0.05
 	raf.RequestAnimationFrame(run)
 	tilingSprite.TileScale.Set(math.Sin(counter)+2, math.Cos(counter)+2)
-	tilingSprite.TilePosition.SetTo(counter + 2)
+	tilingSprite.TilePosition.X += 1
+	tilingSprite.TilePosition.Y += 1
 	renderer.Render(stage)
 }
 
