@@ -51,6 +51,9 @@ type Mesh struct {
 	// 	drawMode number
 	// The way the Mesh should be drawn, can be any of the Mesh.DRAW_MODES consts
 	DrawMode float64 `js:"drawMode"`
+	// 	texturePIXI.Texture
+	// The texture that the sprite is using
+	Texture *Texture `js:"texture"`
 }
 
 func wrapMesh(o *js.Object) *Mesh {
@@ -78,6 +81,7 @@ func NewMesh(texture *Texture, vertices, uvs, indices []float64, drawMode int) *
 
 type Rope struct {
 	*Mesh
+	Colors []float64 `js:"colors"`
 }
 
 // new PIXI.mesh.Rope(texture, points)
@@ -97,7 +101,7 @@ type Rope struct {
 // An array of {Point} objects to construct this rope.
 func NewRope(texture *Texture, points []*Point) *Rope {
 	o := pkg.Get("mesh").Get("Rope").New(texture, points)
-	return &Rope{wrapMesh(o)}
+	return &Rope{Mesh: wrapMesh(o)}
 }
 
 // refresh()
