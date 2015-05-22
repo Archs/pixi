@@ -62,6 +62,6 @@ func wrapText(o *js.Object) *Text {
 func NewText(text string, style ...interface{}) *Text {
 	args := []interface{}{text}
 	args = append(args, style...)
-	o := pkg.Call("Text", args...)
+	o := pkg.Get("Text").New(args...)
 	return wrapText(o)
 }
