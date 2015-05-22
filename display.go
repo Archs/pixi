@@ -45,6 +45,8 @@ type DisplayObject struct {
 	CacheAsBitmap       bool    `js:"cacheAsBitmap"`
 	X                   float64 `js:"x"`
 	Y                   float64 `js:"y"`
+	// for container only, indicates the mouse/touch event response area
+	HitArea *Rectangle `js:"hitArea"`
 	// filterArea Rectangle
 	//
 	// The area the filter is applied to. This is used as more of an optimisation rather than figuring out the dimensions of the displayObject each frame you can set this rectangle
