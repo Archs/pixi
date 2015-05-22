@@ -9,10 +9,10 @@ type displayObject interface {
 type DisplayObject struct {
 	*js.Object
 	// The coordinate of the object relative to the local coordinates of the parent.
-	Position Point
-	Scale    Point
+	Position Point `js:"position"`
+	Scale    Point `js:"scale"`
 	// The pivot point of the displayObject that it rotates around
-	Pivot         Point
+	Pivot         Point   `js:"pivot"`
 	Rotation      float64 `js:"rotation"`
 	Alpha         float64 `js:"alpha"`
 	Visible       bool    `js:"visible"`
@@ -27,10 +27,7 @@ type DisplayObject struct {
 
 func wrapDisplayObject(object *js.Object) *DisplayObject {
 	return &DisplayObject{
-		Object:   object,
-		Position: Point{Object: object.Get("position")},
-		Scale:    Point{Object: object.Get("scale")},
-		Pivot:    Point{Object: object.Get("pivot")},
+		Object: object,
 	}
 }
 
@@ -40,8 +37,8 @@ func (d *DisplayObject) displayer() *js.Object {
 }
 
 // Parent is the display object container that contains this display object.
-func (d *DisplayObject) Parent() *DisplayObjectContainer {
-	return wrapDisplayObjectContainer(d.Get("parent"))
+func (d *DisplayObject) Parent() *Container {
+	return wrapContainer(d.Get("parent"))
 }
 
 // Stage the display object is connected to.
@@ -159,63 +156,63 @@ func (d *DisplayObject) Click(cb func(*InteractionData)) {
 // TODO: mask
 // TODO: filters
 
-// A DisplayObjectContainer represents a collection of display objects.
-type DisplayObjectContainer struct {
+// A Container represents a collection of display objects.
+type Container struct {
 	*DisplayObject
 	Width  float64 `js:"width"`
 	Height float64 `js:"height"`
 }
 
-func NewDisplayObjectContainer() *DisplayObjectContainer {
-	return wrapDisplayObjectContainer(pkg.Get("DisplayObjectContainer").New())
+func NewContainer() *Container {
+	return wrapContainer(pkg.Get("Container").New())
 }
 
-func wrapDisplayObjectContainer(object *js.Object) *DisplayObjectContainer {
-	return &DisplayObjectContainer{DisplayObject: wrapDisplayObject(object)}
+func wrapContainer(object *js.Object) *Container {
+	return &Container{DisplayObject: wrapDisplayObject(object)}
 }
 
 // AddChild adds a child to the container.
-func (d DisplayObjectContainer) AddChild(do displayObject) {
+func (d Container) AddChild(do displayObject) {
 	d.Call("addChild", do.displayer())
 }
 
 // AddChildAt adds a child at the specified index.
-func (d DisplayObjectContainer) AddChildAt(do displayObject, index int) {
+func (d Container) AddChildAt(do displayObject, index int) {
 	d.Call("addChildAt", do.displayer(), index)
 }
 
 // ChildAt returns the child at the specified index.
-func (d DisplayObjectContainer) ChildAt(index int) *DisplayObject {
+func (d Container) ChildAt(index int) *DisplayObject {
 	return wrapDisplayObject(d.Call("getChildAt", index))
 }
 
 // RemoveChild removes a child from the container.
-func (d DisplayObjectContainer) RemoveChild(do displayObject) {
+func (d Container) RemoveChild(do displayObject) {
 	d.Call("removeChild", do.displayer())
 }
 
 // RemoveChildAt removes a child at the specified index.
-func (d DisplayObjectContainer) RemoveChildAt(index int) {
+func (d Container) RemoveChildAt(index int) {
 	d.Call("removeChildAt", index)
 }
 
 // RemoveChildren removes all child instances from the container.
-func (d DisplayObjectContainer) RemoveChildren(start, end int) {
+func (d Container) RemoveChildren(start, end int) {
 	d.Call("removeChildren", start, end)
 }
 
 // RemoveChildren removes all child instances from the container.
-func (d DisplayObjectContainer) RemoveAllChildren() {
+func (d Container) RemoveAllChildren() {
 	d.Call("removeChildren")
 }
 
 type Sprite struct {
-	*DisplayObjectContainer
+	*Container
 	// The anchor sets the origin point of the texture.
 	// The default is 0,0 this means the texture's origin is the top left
 	// Setting the anchor to 0.5,0.5 means the texture's origin is centered
 	// Setting the anchor to 1,1 would mean the texture's origin point will be the bottom right corner
-	Anchor Point
+	Anchor Point `js:"anchor"`
 	// The tint applied to the sprite.
 	// This is a hex value. A value of 0xFFFFFF will remove any tint effect.
 	Tint      uint32 `js:"tint"`
@@ -229,8 +226,8 @@ func NewSprite(texture *Texture) *Sprite {
 
 func wrapSprite(object *js.Object) *Sprite {
 	return &Sprite{
-		DisplayObjectContainer: wrapDisplayObjectContainer(object),
-		Anchor:                 Point{Object: object.Get("anchor")},
+		Container: wrapContainer(object),
+		// Anchor:                 Point{Object: object.Get("anchor")},
 	}
 }
 
@@ -252,11 +249,11 @@ type SpriteBatch struct {
 }
 
 func NewSpriteBatch() *SpriteBatch {
-	return &SpriteBatch{wrapDisplayObjectContainer(pkg.Get("SpriteBatch").New()).Object}
+	return &SpriteBatch{wrapContainer(pkg.Get("SpriteBatch").New()).Object}
 }
 
 type Stage struct {
-	*DisplayObjectContainer
+	*Container
 }
 
 func NewStage(background uint32) *Stage {
@@ -264,7 +261,7 @@ func NewStage(background uint32) *Stage {
 }
 
 func wrapStage(object *js.Object) *Stage {
-	return &Stage{DisplayObjectContainer: wrapDisplayObjectContainer(object)}
+	return &Stage{Container: wrapContainer(object)}
 }
 
 type MovieClip struct {

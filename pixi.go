@@ -48,17 +48,17 @@ type scaleModes struct {
 
 type InteractionData struct {
 	*js.Object
-	Global        Point
-	Target        *Sprite
-	OriginalEvent *js.Object
+	Global        Point      `js:"global"`
+	Target        *Sprite    `js:"target"`
+	OriginalEvent *js.Object `js:"originalEvent"`
 }
 
 func wrapInteractionData(object *js.Object) *InteractionData {
 	return &InteractionData{
-		Object:        object,
-		Global:        Point{Object: object.Get("global")},
-		Target:        wrapSprite(object.Get("target")),
-		OriginalEvent: object.Get("originalEvent"),
+		Object: object,
+		// Global:        Point{Object: object.Get("global")},
+		// Target:        wrapSprite(object.Get("target")),
+		// OriginalEvent: object.Get("originalEvent"),
 	}
 }
 
