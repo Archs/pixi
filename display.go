@@ -74,9 +74,11 @@ type DisplayObject struct {
 }
 
 func wrapDisplayObject(object *js.Object) *DisplayObject {
-	return &DisplayObject{
+	d := &DisplayObject{
 		Object: object,
 	}
+	d.Update = func() { println("base updater") }
+	return d
 }
 
 // displayer satisfies the displayObject interface.
@@ -310,12 +312,85 @@ func SpriteFromImage(imageId string, crossOrigin bool, scaleMode int) *Sprite {
 	return wrapSprite(pkg.Get("Sprite").Call("fromImage", imageId, crossOrigin, scaleMode))
 }
 
-type SpriteBatch struct {
+// export interface ParticleContainerProperties {
+//
+//     scale?: any;
+//     position?: any;
+//     rotation?: number;
+//     uvs?: any;
+//     alpha?: number;
+// }
+type ParticleContainerProperties struct {
 	*js.Object
+	// scale	boolean	false	optional
+	// When true, scale be uploaded and applied.
+	Scale bool `js:"scale"`
+	// position	boolean	true	optional
+	// When true, position be uploaded and applied.
+	Position bool `js:"position"`
+	// rotation	boolean	false	optional
+	// When true, rotation be uploaded and applied.
+	Rotation bool `js:"rotation"`
+	// uvs	boolean	false	optional
+	// When true, uvs be uploaded and applied.
+	Uvs bool `js:"uvs"`
+	// alpha	boolean	false	optional
+	// When true, alpha be uploaded and applied.
+	Alpha bool `js:"alpha"`
 }
 
-func NewSpriteBatch() *SpriteBatch {
-	return &SpriteBatch{wrapContainer(pkg.Get("SpriteBatch").New()).Object}
+func NewParticleContainerProperties() *ParticleContainerProperties {
+	return &ParticleContainerProperties{
+		Object: js.Global.Get("Object").New(),
+	}
+}
+
+// export class ParticleContainer extends Container {
+//
+//         constructor(size?: number, properties?: ParticleContainerProperties);
+//
+//         interactiveChildren: boolean;
+//         blendMode: number;
+//         roundPixels: boolean;
+//
+//         setProperties(properties: ParticleContainerProperties): void;
+//         addChildAt(child: DisplayObject, index: number): DisplayObject;
+//         removeChildAt(index: number): DisplayObject;
+//
+//     }
+
+// The ParticleContainer class is a really fast version of the Container built solely for speed,
+// so use when you need a lot of sprites or particles.
+// The tradeoff of the ParticleContainer is that advanced functionality will not work.
+// ParticleContainer implements only the basic object transform (position, scale, rotation).
+// Any other functionality like tinting, masking, etc will not work on sprites in this batch.
+//
+// It's extremely easy to use :
+//
+//	 var container = new ParticleContainer();
+//
+//	 for (var i = 0; i < 100; ++i)
+//	 {
+//	     var sprite = new PIXI.Sprite.fromImage("myImage.png");
+//	     container.addChild(sprite);
+//	 }
+type ParticleContainer struct {
+	*Container
+	// roundPixels: boolean;
+	RoundPixels bool `js:"roundPixels"`
+	// setProperties(properties: ParticleContainerProperties): void;
+	SetProperties func(*ParticleContainerProperties) `js:"setProperties"`
+}
+
+func NewParticleContainer(size int, ps ...*ParticleContainerProperties) *ParticleContainer {
+	if len(ps) > 0 {
+		return &ParticleContainer{
+			Container: wrapContainer(pkg.Get("ParticleContainer").New(size, ps[0])),
+		}
+	}
+	return &ParticleContainer{
+		Container: wrapContainer(pkg.Get("ParticleContainer").New(size)),
+	}
 }
 
 type MovieClip struct {
