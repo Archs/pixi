@@ -66,6 +66,11 @@ type DisplayObject struct {
 	// In PIXI a regular mask must be a PIXI.Graphics object. This allows for much faster masking in canvas as it utilises shape clipping.
 	// To remove a mask, set this property to null.
 	Mask *Graphics `js:"mask"`
+	// a gopherjs specific DisplayObject update function
+	// which can be used in the container.Children/ChildAt/GetChildByName returned instance
+	//
+	// Must be set before invoke
+	Update func() `js:"gopherjsSpecificUpdater"`
 }
 
 func wrapDisplayObject(object *js.Object) *DisplayObject {
@@ -215,8 +220,9 @@ func (d *DisplayObject) Once(eventName string, cb func(*InteractionEvent)) *Disp
 // A Container represents a collection of display objects.
 type Container struct {
 	*DisplayObject
-	Width  float64 `js:"width"`
-	Height float64 `js:"height"`
+	Children []*DisplayObject `js:"children"`
+	Width    float64          `js:"width"`
+	Height   float64          `js:"height"`
 }
 
 func NewContainer() *Container {
