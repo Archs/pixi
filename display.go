@@ -45,7 +45,8 @@ type DisplayObject struct {
 	CacheAsBitmap       bool    `js:"cacheAsBitmap"`
 	X                   float64 `js:"x"`
 	Y                   float64 `js:"y"`
-	// for container only, indicates the mouse/touch event response area
+	// for pure containers only, indicates the mouse/touch event response area
+	// Sprite Graphics don't need this
 	HitArea *Rectangle `js:"hitArea"`
 	// filterArea Rectangle
 	//
