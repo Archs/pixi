@@ -150,15 +150,3 @@ func (p *Polygon) Clone() *Polygon {
 		basicShape: wrapBasicShape(p.o.Call("clone")),
 	}
 }
-
-func init() {
-	g := NewGraphics()
-	g.DrawShape(NewCircle(1, 2, 3))
-	g.DrawShape(NewRectangle(1, 2, 3, 8))
-	// c := NewCircle(1, 2, 3)
-	p := NewPolygon(
-		Point{nil, 1, 2},
-		Point{nil, 3, 4},
-	)
-	g.DrawShape(p)
-}
