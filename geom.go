@@ -9,7 +9,7 @@ type Point struct {
 	Y float64 `js:"y"`
 }
 
-func NewPoint(x, y, width, height float64) Point {
+func NewPoint(x, y float64) Point {
 	return Point{Object: pkg.Get("Point").New(x, y)}
 }
 
