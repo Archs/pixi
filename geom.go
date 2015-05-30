@@ -47,4 +47,8 @@ func (r Rectangle) Contains(x, y float64) bool {
 	return r.Call("contains", x, y).Bool()
 }
 
+func (r Rectangle) shape() *js.Object {
+	return r.Object
+}
+
 var EmptyRectangle = Rectangle{Object: pkg.Get("EmptyRectangle")}
