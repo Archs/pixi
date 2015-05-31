@@ -14,7 +14,7 @@ var (
 	bunny    = pixi.NewSprite(texture)
 )
 
-func animate(t float32) {
+func animate(t float64) {
 	raf.RequestAnimationFrame(animate)
 	bunny.Rotation += 0.1
 	renderer.Render(stage)

@@ -88,7 +88,7 @@ func (button *Button) out(data *pixi.InteractionData) {
 	}
 }
 
-func animate(t float32) {
+func animate(t float64) {
 	raf.RequestAnimationFrame(animate)
 	renderer.Render(stage)
 }

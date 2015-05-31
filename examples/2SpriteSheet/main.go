@@ -40,7 +40,7 @@ func onAssetsLoaded() {
 	raf.RequestAnimationFrame(animate)
 }
 
-func animate(t float32) {
+func animate(t float64) {
 	for i := 0; i < len(aliens); i++ {
 		aliens[i].Rotation += 0.1
 	}

@@ -29,7 +29,7 @@ type Ball struct {
 	x, y   float64
 }
 
-func animate(t float32) {
+func animate(t float64) {
 	for i := 0; i < len(balls); i++ {
 		ball := balls[i]
 		ball.sprite.Position.X = ball.x + slideX

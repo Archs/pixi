@@ -39,7 +39,7 @@ func onAssetsLoaded() {
 	raf.RequestAnimationFrame(animate)
 }
 
-func animate(t float32) {
+func animate(t float64) {
 	renderer.Render(stage)
 	raf.RequestAnimationFrame(animate)
 }
