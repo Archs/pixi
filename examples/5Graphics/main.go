@@ -11,7 +11,7 @@ import (
 
 var (
 	stage    = pixi.NewStage(0x872324)
-	renderer = pixi.AutoDetectRenderer(300, 400)
+	renderer pixi.Renderer
 	bs       = []*Ball{}
 )
 
@@ -70,7 +70,12 @@ func main() {
 	stage.AddChild(g)
 	dom.OnDOMContentLoaded(func() {
 		println("dom loaded")
-		dom.Body().AppendChild(dom.Wrap(renderer.View))
+		renderer = pixi.AutoDetectRenderer(dom.Window().InnerWidth, dom.Window().InnerHeight)
+		v := dom.Wrap(renderer.View)
+		v.Width = dom.Window().InnerWidth
+		v.Height = dom.Window().InnerHeight
+
+		dom.Body().AppendChild(v)
 		raf.RequestAnimationFrame(run)
 	})
 }
