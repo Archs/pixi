@@ -12,7 +12,7 @@ var (
 	renderer = pixi.AutoDetectRenderer(800, 600)
 )
 
-func animate(t float32) {
+func animate(t float64) {
 	raf.RequestAnimationFrame(animate)
 	renderer.Render(stage)
 }
