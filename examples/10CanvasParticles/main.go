@@ -56,7 +56,7 @@ func (p *Particle) init(x, y float64) {
 	p.radius = 5 + 35*rand.Float64()
 	p.theta = 2 * math.Pi * rand.Float64()
 	p.force = 2 + 8*rand.Float64()
-	p.damping = 0.92
+	p.damping = 0.9 + 0.1*rand.Float64()
 	p.color = COLOURS[rand.Intn(7)]
 	p.vx = p.force * math.Sin(p.theta)
 	p.vy = p.force * math.Cos(p.theta)
@@ -71,11 +71,13 @@ func (g *Particle) update() {
 	g.radius *= 0.93
 	g.x += g.vx
 	g.y += g.vy
-	g.theta = 2 * math.Pi * rand.Float64()
+	// g.theta += (0.5 - rand.Float64()) * 0.15
 	g.vx *= g.damping
 	g.vy *= g.damping
-	g.vx += math.Sin(g.theta) * 0.1
-	g.vy += math.Cos(g.theta) * 0.1
+	g.vx += (math.Sin(g.theta) * 0.1)
+	g.vy += (math.Cos(g.theta) * 0.1)
+	// g.vx += (rand.Float64() * 0.1)
+	// g.vy += (rand.Float64() * 0.1)
 }
 
 func (g *Particle) draw(t float64) {
