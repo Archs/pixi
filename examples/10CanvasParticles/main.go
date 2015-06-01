@@ -1,7 +1,6 @@
 package main
 
 import (
-	"container/list"
 	"github.com/Archs/js/canvas"
 	"github.com/Archs/js/dom"
 	"github.com/Archs/js/raf"
@@ -18,8 +17,8 @@ var (
 	ctx     *canvas.Context2D
 	cw, ch  float64
 	counter = 0
-	ps      = list.New()
-	pool    = list.New()
+	ps      = []*Particle{}
+	pool    = []*Particle{}
 )
 
 type Particle struct {
@@ -31,34 +30,30 @@ type Particle struct {
 	force   float64
 	damping float64
 	color   string
-	el      *list.Element
 }
 
-func spawnParticle(x, y float64) *Particle {
+func getParticle(x, y float64) *Particle {
 	var p *Particle
-	if ps.Len() >= MAX_PARTICLES {
-		el := ps.Front()
-		pool.PushBack(el.Value)
-		ps.Remove(el)
+	if len(ps) >= MAX_PARTICLES {
+		pool = append(pool, ps[0])
+		ps = ps[1:]
 	}
-	if pool.Len() > 0 {
-		el := pool.Front()
-		p = el.Value.(*Particle)
-		pool.Remove(el)
+	if len(pool) > 0 {
+		p = pool[0]
+		pool = pool[1:]
 	} else {
 		p = &Particle{
 			Context2D: ctx,
 		}
 	}
 	p.init(x, y)
-	p.el = ps.PushBack(p)
 	return p
 }
 
 func (p *Particle) init(x, y float64) {
 	p.x = x
 	p.y = y
-	p.radius = 5 + 30*rand.Float64()
+	p.radius = 5 + 35*rand.Float64()
 	p.theta = 2 * math.Pi * rand.Float64()
 	p.force = 2 + 8*rand.Float64()
 	p.damping = 0.92
@@ -73,7 +68,7 @@ func (p *Particle) isAlive() bool {
 
 func (g *Particle) update() {
 	// update
-	g.radius *= 0.96
+	g.radius *= 0.93
 	g.x += g.vx
 	g.y += g.vy
 	g.theta = 2 * math.Pi * rand.Float64()
@@ -98,21 +93,14 @@ func run(t float64) {
 	if counter%2 == 0 {
 		return
 	}
-	// draw all the particles
-	if ps.Len() > 0 {
-		ctx.ClearRect(0, 0, cw, ch)
-		for e := ps.Front(); e != nil; e = e.Next() {
-			p := e.Value.(*Particle)
-			p.update()
-			if !p.isAlive() {
-				// println(ps.Len(), "p", p, "dead")
-				v := ps.Remove(p.el)
-				pool.PushBack(v)
-			}
-		}
-
-		for e := ps.Front(); e != nil; e = e.Next() {
-			p := e.Value.(*Particle)
+	// update & draw all the particles
+	ctx.ClearRect(0, 0, cw, ch)
+	for i := len(ps) - 1; i >= 0; i-- {
+		p := ps[i]
+		p.update()
+		if !p.isAlive() {
+			ps = append(ps[:i], ps[i+1:]...)
+		} else {
 			p.draw(t)
 		}
 	}
@@ -121,18 +109,21 @@ func run(t float64) {
 func makeParticles(x, y float64, n int) {
 	println("makeParticles:", x, y, n)
 	for i := 0; i < rand.Intn(n); i++ {
-		spawnParticle(x, y)
+		p := getParticle(x, y)
+		ps = append(ps, p)
 	}
 }
 
 func main() {
 	dom.OnDOMContentLoaded(func() {
-		dom.Body().Style.SetProperty("margin", "0")
+		s := dom.Body()
+		// set full window and black background
+		s.Style.SetProperty("margin", "0")
+		s.Style.SetProperty("background", "#222")
+
 		el := canvas.New(dom.CreateElement("canvas").Object)
 		cw = float64(dom.Window().InnerWidth)
 		ch = float64(dom.Window().InnerHeight)
-		// cw = 800
-		// ch = 600
 		el.Width = int(cw)
 		el.Height = int(ch)
 		el.AddEventListener(dom.EvtMousemove, func(e *dom.Event) {
