@@ -9,12 +9,18 @@ import (
 	"math/rand"
 )
 
+const (
+	MAX_PARTICLES = 280
+)
+
 var (
 	stage    = pixi.NewStage(0x0)
 	renderer pixi.Renderer
 	ctx      = pixi.NewGraphics()
 	COLOURS  = []float64{0x69D2E7, 0xA7DBD8, 0xE0E4CC, 0xF38630, 0xFA6900, 0xFF4E50, 0xF9D423}
-	mp       = make(map[int]*Particle)
+	ps       = []*Particle{}
+	pool     = []*Particle{}
+	counter  = 0
 )
 
 type Particle struct {
@@ -28,38 +34,54 @@ type Particle struct {
 	color   float64
 }
 
-func newParticle(x, y float64) *Particle {
-	b := &Particle{
-		// Graphics: pixi.NewGraphics(),
-		Graphics: ctx,
-		x:        x,
-		y:        y,
-		radius:   5 + 30*rand.Float64(),
-		theta:    2 * math.Pi * rand.Float64(),
-		force:    2 + 8*rand.Float64(),
-		damping:  0.92,
-		color:    COLOURS[rand.Intn(7)],
+func getParticle(x, y float64) *Particle {
+	var p *Particle
+	if len(ps) >= MAX_PARTICLES {
+		pool = append(pool, ps[0])
+		ps = ps[1:]
 	}
-	b.vx = b.force * math.Sin(b.theta)
-	b.vy = b.force * math.Cos(b.theta)
-	return b
+	if len(pool) > 0 {
+		p = pool[0]
+		pool = pool[1:]
+	} else {
+		p = &Particle{
+			Graphics: ctx,
+		}
+	}
+	p.init(x, y)
+	return p
+}
+
+func (p *Particle) init(x, y float64) {
+	p.x = x
+	p.y = y
+	p.radius = 5 + 35*rand.Float64()
+	p.theta = 2 * math.Pi * rand.Float64()
+	p.force = 2 + 8*rand.Float64()
+	p.damping = 0.9 + 0.1*rand.Float64()
+	p.color = COLOURS[rand.Intn(7)]
+	p.vx = p.force * math.Sin(p.theta)
+	p.vy = p.force * math.Cos(p.theta)
 }
 
 func (p *Particle) isAlive() bool {
 	return p.radius > 0.5
 }
 
-func (g *Particle) draw(t float64) {
-	// g.Clear()
+func (g *Particle) update() {
 	// update
-	g.radius *= 0.9
+	g.radius *= 0.93
 	g.x += g.vx
 	g.y += g.vy
-	g.theta = 2 * math.Pi * rand.Float64()
+	// g.theta += (0.5 - rand.Float64()) * 0.15
 	g.vx *= g.damping
 	g.vy *= g.damping
-	g.vx += math.Sin(g.theta) * 0.1
-	g.vy += math.Cos(g.theta) * 0.1
+	g.vx += (math.Sin(g.theta) * 0.1)
+	g.vy += (math.Cos(g.theta) * 0.1)
+}
+
+func (g *Particle) draw(t float64) {
+	// g.Clear()
 	// draw
 	g.BeginFill(g.color, 1)
 	g.DrawCircle(g.x, g.y, g.radius)
@@ -67,21 +89,21 @@ func (g *Particle) draw(t float64) {
 }
 
 func run(t float64) {
-	defer raf.RequestAnimationFrame(run)
-	n := int64(t)
+	raf.RequestAnimationFrame(run)
+	counter += 1
 	// frame control
-	if n%3 != 0 {
+	if counter%2 == 0 {
 		return
 	}
-	if len(mp) > 0 {
-		ctx.Clear()
-		for k, p := range mp {
+	// update & draw all the particles
+	ctx.Clear()
+	for i := len(ps) - 1; i >= 0; i-- {
+		p := ps[i]
+		p.update()
+		if !p.isAlive() {
+			ps = append(ps[:i], ps[i+1:]...)
+		} else {
 			p.draw(t)
-			if !p.isAlive() {
-				delete(mp, k)
-				p.Clear()
-				stage.RemoveChild(p)
-			}
 		}
 	}
 	renderer.Render(stage)
@@ -89,13 +111,14 @@ func run(t float64) {
 
 func makeParticles(x, y float64, n int) {
 	for i := 0; i < rand.Intn(n); i++ {
-		p := newParticle(x, y)
-		mp[len(mp)] = p
-		stage.AddChild(p)
+		p := getParticle(x, y)
+		ps = append(ps, p)
 	}
 }
 
 func main() {
+	ctx.BlendMode = pixi.BlendModes.Screen
+	stage.AddChild(ctx)
 	stage.MouseMove(func(id *pixi.InteractionData) {
 		makeParticles(id.Global.X, id.Global.Y, 4)
 	})
