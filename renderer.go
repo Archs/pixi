@@ -71,6 +71,11 @@ func (r *Renderer) Destroy(removeView bool) {
 	r.Call("destroy", removeView)
 }
 
-func AutoDetectRenderer(width, height int) *Renderer {
+func AutoDetectRenderer(width, height int, backgroundColor ...int) *Renderer {
+	if len(backgroundColor) > 0 {
+		return &Renderer{Object: pkg.Call("autoDetectRenderer", width, height, js.M{
+			"backgroundColor": backgroundColor[0],
+		})}
+	}
 	return &Renderer{Object: pkg.Call("autoDetectRenderer", width, height)}
 }

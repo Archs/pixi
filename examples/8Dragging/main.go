@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	stage    = pixi.NewStage(0x97C56E)
+	stage    = pixi.NewContainer(0x97C56E)
 	renderer = pixi.AutoDetectRenderer(800, 600)
 )
 

@@ -10,8 +10,8 @@ import (
 )
 
 var (
-	stage    = pixi.NewStage(0xf2f2f2)
-	renderer pixi.Renderer
+	stage    = pixi.NewContainer(0xf2f2f2)
+	renderer *pixi.Renderer
 	bs       = []*Ball{}
 )
 

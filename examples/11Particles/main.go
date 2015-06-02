@@ -14,8 +14,8 @@ const (
 )
 
 var (
-	stage    = pixi.NewStage(0x0)
-	renderer pixi.Renderer
+	stage    = pixi.NewContainer(0x0)
+	renderer *pixi.Renderer
 	// ctx      = pixi.NewGraphics()
 	COLOURS = []float64{0x69D2E7, 0xA7DBD8, 0xE0E4CC, 0xF38630, 0xFA6900, 0xFF4E50, 0xF9D423}
 	ps      = []*Particle{}
