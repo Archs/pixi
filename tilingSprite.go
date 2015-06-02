@@ -5,10 +5,6 @@ package pixi
 // A tiling sprite is a fast way of rendering a tiling image
 type TilingSprite struct {
 	*Sprite
-	// Name	Type	Description
-	// texture	Texture
-	// the texture of the tiling sprite
-	Texture *Texture `js:"texture"`
 	// width	number
 	// the width of the tiling sprite
 	Width float64 `js:"width"`

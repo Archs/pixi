@@ -267,9 +267,12 @@ type Sprite struct {
 	Anchor Point `js:"anchor"`
 	// The tint applied to the sprite.
 	// This is a hex value. A value of 0xFFFFFF will remove any tint effect.
-	Tint      uint32   `js:"tint"`
-	BlendMode int      `js:"blendMode"`
-	Texture   *Texture `js:"texture"`
+	Tint      uint32 `js:"tint"`
+	BlendMode int    `js:"blendMode"`
+	// Name	Type	Description
+	// texture	Texture
+	// the texture of the tiling sprite
+	Texture *Texture `js:"texture"`
 }
 
 func NewSprite(texture *Texture) *Sprite {
