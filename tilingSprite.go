@@ -16,8 +16,8 @@ type TilingSprite struct {
 	// the height of the tiling sprite
 	Height float64 `js:"height"`
 	// tiling control variables
-	TilePosition Point `js:"tilePosition"`
-	TileScale    Point `js:"tileScale"`
+	TilePosition *Point `js:"tilePosition"`
+	TileScale    *Point `js:"tileScale"`
 }
 
 // new PIXI.extras.TilingSprite(texture, width, height)
