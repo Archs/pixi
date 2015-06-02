@@ -9,10 +9,10 @@ type displayObject interface {
 type DisplayObject struct {
 	*js.Object
 	// The coordinate of the object relative to the local coordinates of the parent.
-	Position Point `js:"position"`
-	Scale    Point `js:"scale"`
+	Position *Point `js:"position"`
+	Scale    *Point `js:"scale"`
 	// The pivot point of the displayObject that it rotates around
-	Pivot         Point   `js:"pivot"`
+	Pivot         *Point  `js:"pivot"`
 	Rotation      float64 `js:"rotation"`
 	Alpha         float64 `js:"alpha"`
 	Visible       bool    `js:"visible"`
@@ -110,9 +110,9 @@ func (d *DisplayObject) RemoveStageReference() {
 //
 //  Type	Description
 //  Point	A point object representing the position of this object
-func (d *DisplayObject) ToGlobal(position Point) Point {
+func (d *DisplayObject) ToGlobal(position Point) *Point {
 	o := d.Call("toGlobal", position)
-	return Point{Object: o}
+	return &Point{Object: o}
 }
 
 // toLocal(position, from){Point}
@@ -128,9 +128,9 @@ func (d *DisplayObject) ToGlobal(position Point) Point {
 //
 //	 Type	Description
 //	 Point	A point object representing the position of this object
-func (d *DisplayObject) ToLocal(position, from Point) Point {
+func (d *DisplayObject) ToLocal(position, from Point) *Point {
 	o := d.Call("toLocal", position, from)
-	return Point{Object: o}
+	return &Point{Object: o}
 }
 
 // generateTexture(renderer, resolution, scaleMode){Texture}
@@ -153,76 +153,56 @@ func (d *DisplayObject) GenerateTexture(renderer Renderer, resolution int, scale
 	return &Texture{Object: o}
 }
 
-func (d *DisplayObject) MouseDown(cb func(*InteractionData)) {
-	d.Set("mousedown", func(data *js.Object) {
-		cb(wrapInteractionData(data))
-	})
+func (d *DisplayObject) On(eventName string, cb func(*EventData)) {
+	d.Call("on", eventName, cb)
 }
 
-func (d *DisplayObject) MouseUp(cb func(*InteractionData)) {
-	d.Set("mouseup", func(data *js.Object) {
-		cb(wrapInteractionData(data))
-	})
+func (d *DisplayObject) MouseDown(cb func(*EventData)) {
+	d.On("mousedown", cb)
 }
 
-func (d *DisplayObject) MouseUpOutside(cb func(*InteractionData)) {
-	d.Set("mouseupoutside", func(data *js.Object) {
-		cb(wrapInteractionData(data))
-	})
+func (d *DisplayObject) MouseUp(cb func(*EventData)) {
+	d.On("mouseup", cb)
 }
 
-func (d *DisplayObject) MouseOver(cb func(*InteractionData)) {
-	d.Set("mouseover", func(data *js.Object) {
-		cb(wrapInteractionData(data))
-	})
+func (d *DisplayObject) MouseUpOutside(cb func(*EventData)) {
+	d.On("mouseupoutside", cb)
 }
 
-func (d *DisplayObject) MouseOut(cb func(*InteractionData)) {
-	d.Set("mouseout", func(data *js.Object) {
-		cb(wrapInteractionData(data))
-	})
+func (d *DisplayObject) MouseOver(cb func(*EventData)) {
+	d.On("mouseover", cb)
 }
 
-func (d *DisplayObject) MouseMove(cb func(*InteractionData)) {
-	d.Set("mousemove", func(data *js.Object) {
-		cb(wrapInteractionData(data))
-	})
+func (d *DisplayObject) MouseOut(cb func(*EventData)) {
+	d.On("mouseout", cb)
 }
 
-func (d *DisplayObject) TouchStart(cb func(*InteractionData)) {
-	d.Set("touchstart", func(data *js.Object) {
-		cb(wrapInteractionData(data))
-	})
+func (d *DisplayObject) MouseMove(cb func(*EventData)) {
+	d.On("mousemove", cb)
 }
 
-func (d *DisplayObject) TouchEnd(cb func(*InteractionData)) {
-	d.Set("touchend", func(data *js.Object) {
-		cb(wrapInteractionData(data))
-	})
+func (d *DisplayObject) TouchStart(cb func(*EventData)) {
+	d.On("touchstart", cb)
 }
 
-func (d *DisplayObject) TouchEndOutside(cb func(*InteractionData)) {
-	d.Set("touchendoutside", func(data *js.Object) {
-		cb(wrapInteractionData(data))
-	})
+func (d *DisplayObject) TouchEnd(cb func(*EventData)) {
+	d.On("touchend", cb)
 }
 
-func (d *DisplayObject) TouchMove(cb func(*InteractionData)) {
-	d.Set("touchmove", func(data *js.Object) {
-		cb(wrapInteractionData(data))
-	})
+func (d *DisplayObject) TouchEndOutside(cb func(*EventData)) {
+	d.On("touchendoutside", cb)
 }
 
-func (d *DisplayObject) Tap(cb func(*InteractionData)) {
-	d.Set("tap", func(data *js.Object) {
-		cb(wrapInteractionData(data))
-	})
+func (d *DisplayObject) TouchMove(cb func(*EventData)) {
+	d.On("touchmove", cb)
 }
 
-func (d *DisplayObject) Click(cb func(*InteractionData)) {
-	d.Set("click", func(data *js.Object) {
-		cb(wrapInteractionData(data))
-	})
+func (d *DisplayObject) Tap(cb func(*EventData)) {
+	d.On("tap", cb)
+}
+
+func (d *DisplayObject) Click(cb func(*EventData)) {
+	d.On("click", cb)
 }
 
 // TODO: mask
@@ -287,8 +267,9 @@ type Sprite struct {
 	Anchor Point `js:"anchor"`
 	// The tint applied to the sprite.
 	// This is a hex value. A value of 0xFFFFFF will remove any tint effect.
-	Tint      uint32 `js:"tint"`
-	BlendMode int    `js:"blendMode"`
+	Tint      uint32   `js:"tint"`
+	BlendMode int      `js:"blendMode"`
+	Texture   *Texture `js:"texture"`
 }
 
 func NewSprite(texture *Texture) *Sprite {
@@ -301,11 +282,6 @@ func wrapSprite(object *js.Object) *Sprite {
 		Container: wrapContainer(object),
 		// Anchor:                 Point{Object: object.Get("anchor")},
 	}
-}
-
-// SetTexture sets the texture of the sprite.
-func (s *Sprite) SetTexture(texture *Texture) {
-	s.Call("setTexture", texture.Object)
 }
 
 func SpriteFromFrame(frameId string) *Sprite {
