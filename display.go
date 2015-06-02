@@ -99,6 +99,26 @@ func (d *DisplayObject) SetFilterArea(rectangle Rectangle) {
 	d.Set("filterArea", rectangle.Object)
 }
 
+// generateTexture(renderer, resolution, scaleMode){Texture}
+//
+// Useful function that returns a texture of the display object that can then be used to create sprites This can be quite useful if your displayObject is static / complicated and needs to be reused multiple times.
+//
+// Name	Type	Description
+// renderer	CanvasRenderer | WebGLRenderer
+// The renderer used to generate the texture.
+// resolution	Number
+// The resolution of the texture being generated
+// scaleMode	Number
+// See SCALE_MODES for possible values
+// Returns:
+//
+// Type	Description
+// Texture	a texture of the display object
+func (d *DisplayObject) GenerateTexture(renderer Renderer, resolution int, scaleMode int) *Texture {
+	o := d.Call("generateTexture", renderer, resolution, scaleMode)
+	return &Texture{Object: o}
+}
+
 func (d *DisplayObject) MouseDown(cb func(*InteractionData)) {
 	d.Set("mousedown", func(data *js.Object) {
 		cb(wrapInteractionData(data))
