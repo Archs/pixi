@@ -84,15 +84,21 @@ func (d *DisplayObject) LocalBounds() Rectangle {
 	return Rectangle{Object: d.Call("getLocalBounds")}
 }
 
-// SetStageReference sets the object's stage reference.
-func (d *DisplayObject) SetStageReference(stage *Stage) {
-	d.Call("setStageReference", stage.Object)
+// destroy()
+// Base destroy method for generic display objects
+func (d *DisplayObject) Destroy() {
+	d.Call("destroy")
 }
 
-// RemoveStageReference removes the object's stage reference.
-func (d *DisplayObject) RemoveStageReference() {
-	d.Call("removeStageReference")
-}
+// // SetStageReference sets the object's stage reference.
+// func (d *DisplayObject) SetStageReference(stage *Stage) {
+// 	d.Call("setStageReference", stage.Object)
+// }
+
+// // RemoveStageReference removes the object's stage reference.
+// func (d *DisplayObject) RemoveStageReference() {
+// 	d.Call("removeStageReference")
+// }
 
 // // SetFilterArea sets the area the filter is applied to.
 // func (d *DisplayObject) SetFilterArea(rectangle Rectangle) {
