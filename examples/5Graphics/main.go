@@ -48,16 +48,18 @@ func run(t float64) {
 	raf.RequestAnimationFrame(run)
 }
 
+func handler(dd *pixi.InteractionEvent) {
+	id := dd.Data
+	println(id.Global.X, id.Global.Y)
+	b := newBall()
+	b.x = id.Global.X
+	b.y = id.Global.Y
+	stage.AddChild(b)
+}
+
 func main() {
 	stage.Interactive = true
-	stage.On(pixi.EventClick, func(dd *pixi.InteractionEvent) {
-		id := dd.Data
-		println(id.Global.X, id.Global.Y)
-		b := newBall()
-		b.x = id.Global.X
-		b.y = id.Global.Y
-		stage.AddChild(b)
-	})
+	stage.On(pixi.EventClick, handler)
 	g := newBall()
 	stage.AddChild(g)
 	dom.OnDOMContentLoaded(func() {
