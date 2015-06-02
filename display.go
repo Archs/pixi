@@ -99,6 +99,40 @@ func (d *DisplayObject) RemoveStageReference() {
 // 	d.Set("filterArea", rectangle.Object)
 // }
 
+// toGlobal(position){Point}
+//
+// Calculates the global position of the display object
+//
+//  Name	Type	Description
+//  position	Point
+//  The world origin to calculate from
+//  Returns:
+//
+//  Type	Description
+//  Point	A point object representing the position of this object
+func (d *DisplayObject) ToGlobal(position Point) Point {
+	o := d.Call("toGlobal", position)
+	return Point{Object: o}
+}
+
+// toLocal(position, from){Point}
+//
+// Calculates the local position of the display object relative to another point
+//
+//	 Name	Type	Description
+//	 position	Point
+//	 The world origin to calculate from
+//	 from	DisplayObject	optional
+//	 The DisplayObject to calculate the global position from
+//	 Returns:
+//
+//	 Type	Description
+//	 Point	A point object representing the position of this object
+func (d *DisplayObject) ToLocal(position, from Point) Point {
+	o := d.Call("toLocal", position, from)
+	return Point{Object: o}
+}
+
 // generateTexture(renderer, resolution, scaleMode){Texture}
 //
 // Useful function that returns a texture of the display object that can then be used to create sprites This can be quite useful if your displayObject is static / complicated and needs to be reused multiple times.
