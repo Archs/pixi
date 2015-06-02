@@ -13,8 +13,8 @@ type Renderer struct {
 	Height float64 `js:"height"`
 }
 
-func (r Renderer) Render(stage *Stage) {
-	r.Call("render", stage.Object)
+func (r Renderer) Render(c *Container) {
+	r.Call("render", c.Object)
 }
 
 func AutoDetectRenderer(width, height int) Renderer {
