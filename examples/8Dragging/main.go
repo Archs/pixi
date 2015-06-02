@@ -35,15 +35,15 @@ func NewDraggableSprite(url string, x, y float64) *DraggableSprite {
 
 	ds := &DraggableSprite{Sprite: sprite}
 
-	ds.MouseDown(ds.down)
-	ds.TouchStart(ds.down)
+	ds.MouseDown(func(ed *pixi.EventData) { ds.down(ed.Data) })
+	ds.TouchStart(func(ed *pixi.EventData) { ds.down(ed.Data) })
 
-	ds.MouseUp(ds.up)
-	ds.MouseUpOutside(ds.up)
-	ds.TouchEnd(ds.up)
-	ds.TouchEndOutside(ds.up)
+	ds.MouseUp(func(ed *pixi.EventData) { ds.up(ed.Data) })
+	ds.MouseUpOutside(func(ed *pixi.EventData) { ds.up(ed.Data) })
+	ds.TouchEnd(func(ed *pixi.EventData) { ds.up(ed.Data) })
+	ds.TouchEndOutside(func(ed *pixi.EventData) { ds.up(ed.Data) })
 
-	ds.MouseMove(ds.move)
+	ds.MouseMove(func(ed *pixi.EventData) { ds.move(ed.Data) })
 
 	return ds
 }
