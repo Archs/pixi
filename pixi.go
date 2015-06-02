@@ -12,9 +12,32 @@ var (
 	CANVAS_RENDERER = pkg.Get("WEBGL_RENDERER").Int()
 
 	VERSION = pkg.Get("VERSION").String()
+
+	ScaleModes   = scaleModes{Object: pkg.Get("SCALE_MODES")}
+	BlendModes   = blendModes{Object: pkg.Get("BLEND_MODES")}
+	RENDERERTYPE = rendererType{Object: pkg.Get("RENDERER_TYPE")}
 )
 
-var BlendModes = blendModes{Object: pkg.Get("BLEND_MODES")}
+// PIXI.RENDERER_TYPE
+//
+// Constant to identify the Renderer Type.
+// RENDERER_TYPE	object
+// Properties
+//
+// Name	Type	Description
+// UNKNOWN	number
+// WEBGL	number
+// CANVAS	number
+
+type rendererType struct {
+	*js.Object
+	// UNKNOWN	number
+	UNKNOWN int `js:"UNKNOWN"`
+	// WEBGL	number
+	WEBGL int `js:"WEBGL"`
+	// CANVAS	number
+	CANVAS int `js:"CANVAS"`
+}
 
 type blendModes struct {
 	*js.Object
@@ -36,8 +59,6 @@ type blendModes struct {
 	Color      int `js:"COLOR"`
 	Luminosity int `js:"LUMINOSITY"`
 }
-
-var ScaleModes = scaleModes{Object: pkg.Get("SCALE_MODES")}
 
 type scaleModes struct {
 	*js.Object
