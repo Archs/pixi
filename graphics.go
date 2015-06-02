@@ -185,7 +185,7 @@ func (g *Graphics) Clone() *Graphics {
 //
 // Type    Description
 // boolean the result of the test
-func (g *Graphics) ContainsPoint(p Point) bool {
+func (g *Graphics) ContainsPoint(p *Point) bool {
 	o := g.Call("containsPoint", p.Object)
 	return o.Bool()
 }
