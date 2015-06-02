@@ -317,7 +317,7 @@ func NewMovieClip(textures []*Texture) *MovieClip {
 	}
 
 	return &MovieClip{
-		Sprite: wrapSprite(pkg.Get("MovieClip").New(objs)),
+		Sprite: wrapSprite(pkg.Get("extras").Get("MovieClip").New(objs)),
 	}
 }
 
