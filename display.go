@@ -75,7 +75,7 @@ func (d *DisplayObject) WorldVisible() bool {
 }
 
 // Bounds is the bounds of the DisplayObject as a rectangle object.
-func (d *DisplayObject) Bounds() Rectangle {
+func (d *DisplayObject) GetBounds() Rectangle {
 	return Rectangle{Object: d.Call("getBounds")}
 }
 
