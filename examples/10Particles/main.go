@@ -118,8 +118,10 @@ func makeParticles(x, y float64, n int) {
 
 func main() {
 	ctx.BlendMode = pixi.BlendModes.Screen
+	stage.Interactive = true
 	stage.AddChild(ctx)
-	stage.MouseMove(func(id *pixi.InteractionData) {
+	stage.MouseMove(func(ed *pixi.EventData) {
+		id := ed.Data
 		makeParticles(id.Global.X, id.Global.Y, 4)
 	})
 	dom.OnDOMContentLoaded(func() {

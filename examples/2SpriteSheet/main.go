@@ -13,7 +13,6 @@ import (
 var (
 	stage    = pixi.NewStage(0xFFFFFF)
 	renderer = pixi.AutoDetectRenderer(800, 600)
-	loader   = pixi.NewAssetLoader([]string{"SpriteSheet.json"}, false)
 	group    = pixi.NewContainer()
 	aliens   = make([]*pixi.Sprite, 0)
 	count    = 0.0
@@ -57,8 +56,10 @@ func animate(t float64) {
 func main() {
 	js.Global.Get("document").Get("body").Call("appendChild", renderer.View)
 
-	loader.OnComplete(onAssetsLoaded)
-	loader.Load()
+	pixi.Loader.Add("SpriteSheet", "SpriteSheet.json", onAssetsLoaded)
+	pixi.Loader.Load(func(res *js.Object) {
+		println(res)
+	})
 
 	group.Position.Set(400, 300)
 	stage.AddChild(group)

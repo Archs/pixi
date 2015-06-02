@@ -41,50 +41,45 @@ func NewButton(x, y float64, upTex, downTex, overTex *pixi.Texture) *Button {
 		overTex: overTex,
 	}
 
-	button.MouseUp(button.up)
-	button.TouchEnd(button.up)
-	button.MouseUpOutside(button.up)
-	button.TouchEndOutside(button.up)
+	button.MouseUp(func(ed *pixi.EventData) { button.up(ed.Data) })
+	button.TouchEnd(func(ed *pixi.EventData) { button.up(ed.Data) })
+	button.MouseUpOutside(func(ed *pixi.EventData) { button.up(ed.Data) })
+	button.TouchEndOutside(func(ed *pixi.EventData) { button.up(ed.Data) })
 
-	button.MouseDown(button.down)
-	button.TouchStart(button.down)
+	button.MouseDown(func(ed *pixi.EventData) { button.down(ed.Data) })
+	button.TouchStart(func(ed *pixi.EventData) { button.down(ed.Data) })
 
-	button.MouseOver(button.over)
-	button.MouseOut(button.out)
+	button.MouseOver(func(ed *pixi.EventData) { button.over(ed.Data) })
+	button.MouseOut(func(ed *pixi.EventData) { button.out(ed.Data) })
 
 	return button
-}
-
-func (button *Button) OnTap(cb func(*pixi.InteractionData)) {
-	button.Click(cb)
-	button.Tap(cb)
 }
 
 func (button *Button) up(data *pixi.InteractionData) {
 	button.isDown = false
 	if button.isOver {
-		button.SetTexture(button.overTex)
+		button.Texture = button.overTex
 	} else {
-		button.SetTexture(button.upTex)
+		button.Texture = button.upTex
 	}
 }
 
 func (button *Button) down(data *pixi.InteractionData) {
 	button.isDown = true
-	button.SetTexture(button.downTex)
+	button.Texture = button.downTex
 }
 
 func (button *Button) over(data *pixi.InteractionData) {
 	button.isOver = true
 	if !button.isDown {
-		button.SetTexture(button.overTex)
+		button.Texture = button.overTex
 	}
 }
 
 func (button *Button) out(data *pixi.InteractionData) {
 	button.isOver = false
 	if !button.isDown {
-		button.SetTexture(button.upTex)
+		button.Texture = button.upTex
 	}
 }
 
@@ -112,11 +107,6 @@ func main() {
 
 	for i := 0; i < len(coords)/2; i++ {
 		button := NewButton(coords[i*2], coords[i*2+1], upTex, downTex, overTex)
-
-		button.OnTap(func(data *pixi.InteractionData) {
-			println("CLICK")
-		})
-
 		stage.AddChild(button)
 		buttons = append(buttons, button)
 	}
