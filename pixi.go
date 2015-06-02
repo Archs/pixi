@@ -14,7 +14,7 @@ var (
 	VERSION = pkg.Get("VERSION").String()
 )
 
-var BlendModes = blendModes{Object: pkg.Get("blendModes")}
+var BlendModes = blendModes{Object: pkg.Get("BLEND_MODES")}
 
 type blendModes struct {
 	*js.Object
@@ -37,7 +37,7 @@ type blendModes struct {
 	Luminosity int `js:"LUMINOSITY"`
 }
 
-var ScaleModes = scaleModes{Object: pkg.Get("scaleModes")}
+var ScaleModes = scaleModes{Object: pkg.Get("SCALE_MODES")}
 
 type scaleModes struct {
 	*js.Object
