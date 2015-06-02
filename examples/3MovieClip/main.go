@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	stage      = pixi.NewStage(0xFFFFFF)
+	stage      = pixi.NewContainer(0xFFFFFF)
 	renderer   = pixi.AutoDetectRenderer(800, 600)
 	explosions = make([]*pixi.Sprite, 0)
 	count      = 0.0

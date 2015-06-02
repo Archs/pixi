@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	stage      = pixi.NewStage(0x000000)
+	stage      = pixi.NewContainer(0x000000)
 	renderer   = pixi.AutoDetectRenderer(620, 400)
 	background = pixi.SpriteFromImage("bg.jpg", true, pixi.ScaleModes.Default)
 	buttons    = make([]*Button, 0)
