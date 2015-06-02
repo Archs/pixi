@@ -94,10 +94,10 @@ func (d *DisplayObject) RemoveStageReference() {
 	d.Call("removeStageReference")
 }
 
-// SetFilterArea sets the area the filter is applied to.
-func (d *DisplayObject) SetFilterArea(rectangle Rectangle) {
-	d.Set("filterArea", rectangle.Object)
-}
+// // SetFilterArea sets the area the filter is applied to.
+// func (d *DisplayObject) SetFilterArea(rectangle Rectangle) {
+// 	d.Set("filterArea", rectangle.Object)
+// }
 
 // generateTexture(renderer, resolution, scaleMode){Texture}
 //
