@@ -10,8 +10,8 @@ import (
 )
 
 var (
-	stage    = pixi.NewContainer(0x32232)
-	render   = pixi.AutoDetectRenderer(300, 300)
+	stage    = pixi.NewContainer()
+	render   = pixi.AutoDetectRenderer(300, 300, 0x32232)
 	sprite   = pixi.SpriteFromImage("img/bunny.png", false, pixi.ScaleModes.Default)
 	lastTime = float64(0)
 	stepX    = float64(5)

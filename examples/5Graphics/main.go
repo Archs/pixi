@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	stage    = pixi.NewContainer(0xf2f2f2)
+	stage    = pixi.NewContainer()
 	renderer *pixi.Renderer
 	bs       = []*Ball{}
 )
@@ -50,7 +50,7 @@ func run(t float64) {
 
 func main() {
 	stage.Interactive = true
-	stage.Click(func(dd *pixi.EventData) {
+	stage.Click(func(dd *pixi.InteractionEvent) {
 		id := dd.Data
 		println(id.Global.X, id.Global.Y)
 		b := newBall()
@@ -62,7 +62,7 @@ func main() {
 	stage.AddChild(g)
 	dom.OnDOMContentLoaded(func() {
 		println("dom loaded")
-		renderer = pixi.AutoDetectRenderer(dom.Window().InnerWidth, dom.Window().InnerHeight)
+		renderer = pixi.AutoDetectRenderer(dom.Window().InnerWidth, dom.Window().InnerHeight, 0xf2f2f2)
 		v := dom.Wrap(renderer.View)
 		v.Width = dom.Window().InnerWidth
 		v.Height = dom.Window().InnerHeight

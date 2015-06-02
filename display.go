@@ -154,55 +154,55 @@ func (d *DisplayObject) GenerateTexture(renderer Renderer, resolution int, scale
 	return &Texture{Object: o}
 }
 
-func (d *DisplayObject) On(eventName string, cb func(*EventData)) {
+func (d *DisplayObject) On(eventName string, cb func(*InteractionEvent)) {
 	d.Call("on", eventName, cb)
 }
 
-func (d *DisplayObject) MouseDown(cb func(*EventData)) {
+func (d *DisplayObject) MouseDown(cb func(*InteractionEvent)) {
 	d.On("mousedown", cb)
 }
 
-func (d *DisplayObject) MouseUp(cb func(*EventData)) {
+func (d *DisplayObject) MouseUp(cb func(*InteractionEvent)) {
 	d.On("mouseup", cb)
 }
 
-func (d *DisplayObject) MouseUpOutside(cb func(*EventData)) {
+func (d *DisplayObject) MouseUpOutside(cb func(*InteractionEvent)) {
 	d.On("mouseupoutside", cb)
 }
 
-func (d *DisplayObject) MouseOver(cb func(*EventData)) {
+func (d *DisplayObject) MouseOver(cb func(*InteractionEvent)) {
 	d.On("mouseover", cb)
 }
 
-func (d *DisplayObject) MouseOut(cb func(*EventData)) {
+func (d *DisplayObject) MouseOut(cb func(*InteractionEvent)) {
 	d.On("mouseout", cb)
 }
 
-func (d *DisplayObject) MouseMove(cb func(*EventData)) {
+func (d *DisplayObject) MouseMove(cb func(*InteractionEvent)) {
 	d.On("mousemove", cb)
 }
 
-func (d *DisplayObject) TouchStart(cb func(*EventData)) {
+func (d *DisplayObject) TouchStart(cb func(*InteractionEvent)) {
 	d.On("touchstart", cb)
 }
 
-func (d *DisplayObject) TouchEnd(cb func(*EventData)) {
+func (d *DisplayObject) TouchEnd(cb func(*InteractionEvent)) {
 	d.On("touchend", cb)
 }
 
-func (d *DisplayObject) TouchEndOutside(cb func(*EventData)) {
+func (d *DisplayObject) TouchEndOutside(cb func(*InteractionEvent)) {
 	d.On("touchendoutside", cb)
 }
 
-func (d *DisplayObject) TouchMove(cb func(*EventData)) {
+func (d *DisplayObject) TouchMove(cb func(*InteractionEvent)) {
 	d.On("touchmove", cb)
 }
 
-func (d *DisplayObject) Tap(cb func(*EventData)) {
+func (d *DisplayObject) Tap(cb func(*InteractionEvent)) {
 	d.On("tap", cb)
 }
 
-func (d *DisplayObject) Click(cb func(*EventData)) {
+func (d *DisplayObject) Click(cb func(*InteractionEvent)) {
 	d.On("click", cb)
 }
 

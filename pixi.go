@@ -88,7 +88,7 @@ func (id *InteractionData) LocalPosition(do displayObject) *Point {
 	return &Point{Object: id.Object.Call("getLocalPosition", do.displayer())}
 }
 
-type EventData struct {
+type InteractionEvent struct {
 	*js.Object
 	// stopped: false,
 	Stopped bool `js:"stopped"`
