@@ -28,22 +28,21 @@ func NewDraggableSprite(url string, x, y float64) *DraggableSprite {
 
 	sprite.Interactive = true
 	sprite.ButtonMode = true
-
 	sprite.Position.Set(x, y)
 	sprite.Anchor.SetTo(0.5)
 	sprite.Scale.SetTo(3)
 
 	ds := &DraggableSprite{Sprite: sprite}
 
-	ds.MouseDown(func(ed *pixi.InteractionEvent) { ds.down(ed.Data) })
-	ds.TouchStart(func(ed *pixi.InteractionEvent) { ds.down(ed.Data) })
+	ds.On(pixi.EventMouseDown, func(ed *pixi.InteractionEvent) { ds.down(ed.Data) })
+	ds.On(pixi.EventTouchStart, func(ed *pixi.InteractionEvent) { ds.down(ed.Data) })
 
-	ds.MouseUp(func(ed *pixi.InteractionEvent) { ds.up(ed.Data) })
-	ds.MouseUpOutside(func(ed *pixi.InteractionEvent) { ds.up(ed.Data) })
-	ds.TouchEnd(func(ed *pixi.InteractionEvent) { ds.up(ed.Data) })
-	ds.TouchEndOutside(func(ed *pixi.InteractionEvent) { ds.up(ed.Data) })
+	ds.On(pixi.EventMouseUp, func(ed *pixi.InteractionEvent) { ds.up(ed.Data) })
+	ds.On(pixi.EventMouseUpOutside, func(ed *pixi.InteractionEvent) { ds.up(ed.Data) })
+	ds.On(pixi.EventTouchEnd, func(ed *pixi.InteractionEvent) { ds.up(ed.Data) })
+	ds.On(pixi.EventTouchEndOutside, func(ed *pixi.InteractionEvent) { ds.up(ed.Data) })
 
-	ds.MouseMove(func(ed *pixi.InteractionEvent) { ds.move(ed.Data) })
+	ds.On(pixi.EventMouseMove, func(ed *pixi.InteractionEvent) { ds.move(ed.Data) })
 
 	return ds
 }

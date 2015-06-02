@@ -122,7 +122,7 @@ func makeParticles(x, y float64, n int) {
 func main() {
 	stage.Interactive = true
 	// stage.AddChild(ctx)
-	stage.MouseMove(func(ed *pixi.InteractionEvent) {
+	stage.On(pixi.EventMouseMove, func(ed *pixi.InteractionEvent) {
 		id := ed.Data
 		makeParticles(id.Global.X, id.Global.Y, 4)
 	})

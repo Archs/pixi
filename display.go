@@ -10,6 +10,7 @@ const (
 	EventMouseUp         = "mouseup"
 	EventMouseClick      = "mouseclick"
 	EventMouseUpOutside  = "mouseupoutside"
+	EventMouseMove       = "mousemove"
 	EventRightClick      = "rightclick"
 	EventRightDown       = "rightdown"
 	EventRightUp         = "rightup"
