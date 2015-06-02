@@ -109,7 +109,6 @@ func run(t float64) {
 }
 
 func makeParticles(x, y float64, n int) {
-	println("makeParticles:", x, y, n)
 	for i := 0; i < rand.Intn(n); i++ {
 		p := getParticle(x, y)
 		ps = append(ps, p)

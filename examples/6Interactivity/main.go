@@ -41,16 +41,16 @@ func NewButton(x, y float64, upTex, downTex, overTex *pixi.Texture) *Button {
 		overTex: overTex,
 	}
 
-	button.MouseUp(func(ed *pixi.InteractionEvent) { button.up(ed.Data) })
-	button.TouchEnd(func(ed *pixi.InteractionEvent) { button.up(ed.Data) })
-	button.MouseUpOutside(func(ed *pixi.InteractionEvent) { button.up(ed.Data) })
-	button.TouchEndOutside(func(ed *pixi.InteractionEvent) { button.up(ed.Data) })
+	button.On(pixi.EventMouseUp, func(ed *pixi.InteractionEvent) { button.up(ed.Data) })
+	button.On(pixi.EventTouchEnd, func(ed *pixi.InteractionEvent) { button.up(ed.Data) })
+	button.On(pixi.EventMouseUpOutside, func(ed *pixi.InteractionEvent) { button.up(ed.Data) })
+	button.On(pixi.EventTouchEndOutside, func(ed *pixi.InteractionEvent) { button.up(ed.Data) })
 
-	button.MouseDown(func(ed *pixi.InteractionEvent) { button.down(ed.Data) })
-	button.TouchStart(func(ed *pixi.InteractionEvent) { button.down(ed.Data) })
+	button.On(pixi.EventMouseDown, func(ed *pixi.InteractionEvent) { button.down(ed.Data) })
+	button.On(pixi.EventTouchStart, func(ed *pixi.InteractionEvent) { button.down(ed.Data) })
 
-	button.MouseOver(func(ed *pixi.InteractionEvent) { button.over(ed.Data) })
-	button.MouseOut(func(ed *pixi.InteractionEvent) { button.out(ed.Data) })
+	button.On(pixi.EventMouseOver, func(ed *pixi.InteractionEvent) { button.over(ed.Data) })
+	button.On(pixi.EventMouseOut, func(ed *pixi.InteractionEvent) { button.out(ed.Data) })
 
 	return button
 }

@@ -50,7 +50,7 @@ func run(t float64) {
 
 func main() {
 	stage.Interactive = true
-	stage.Click(func(dd *pixi.InteractionEvent) {
+	stage.On(pixi.EventClick, func(dd *pixi.InteractionEvent) {
 		id := dd.Data
 		println(id.Global.X, id.Global.Y)
 		b := newBall()
