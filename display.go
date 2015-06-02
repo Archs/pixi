@@ -2,6 +2,25 @@ package pixi
 
 import "github.com/gopherjs/gopherjs/js"
 
+const (
+	EventClick           = "click"
+	EventMousedown       = "mousedown"
+	EventMouseout        = "mouseout"
+	EventMouseover       = "mouseover"
+	EventMouseup         = "mouseup"
+	EventMouseclick      = "mouseclick"
+	EventMouseupoutside  = "mouseupoutside"
+	EventRightclick      = "rightclick"
+	EventRightdown       = "rightdown"
+	EventRightup         = "rightup"
+	EventRightupoutside  = "rightupoutside"
+	EventTap             = "tap"
+	EventTouchend        = "touchend"
+	EventTouchendoutside = "touchendoutside"
+	EventTouchmove       = "touchmove"
+	EventTouchstart      = "touchstart"
+)
+
 type displayObject interface {
 	displayer() *js.Object
 }
@@ -162,60 +181,32 @@ func (d *DisplayObject) GenerateTexture(renderer Renderer, resolution int, scale
 	return &Texture{Object: o}
 }
 
-func (d *DisplayObject) On(eventName string, cb func(*InteractionEvent)) {
+// on(event: 'click', fn: (event: interaction.InteractionEvent) => void, context?: any): EventEmitter;
+// on(event: 'mousedown', fn: (event: interaction.InteractionEvent) => void, context?: any): EventEmitter;
+// on(event: 'mouseout', fn: (event: interaction.InteractionEvent) => void, context?: any): EventEmitter;
+// on(event: 'mouseover', fn: (event: interaction.InteractionEvent) => void, context?: any): EventEmitter;
+// on(event: 'mouseup', fn: (event: interaction.InteractionEvent) => void, context?: any): EventEmitter;
+// on(event: 'mouseclick', fn: (event: interaction.InteractionEvent) => void, context?: any): EventEmitter;
+// on(event: 'mouseupoutside', fn: (event: interaction.InteractionEvent) => void, context?: any): EventEmitter;
+// on(event: 'rightclick', fn: (event: interaction.InteractionEvent) => void, context?: any): EventEmitter;
+// on(event: 'rightdown', fn: (event: interaction.InteractionEvent) => void, context?: any): EventEmitter;
+// on(event: 'rightup', fn: (event: interaction.InteractionEvent) => void, context?: any): EventEmitter;
+// on(event: 'rightupoutside', fn: (event: interaction.InteractionEvent) => void, context?: any): EventEmitter;
+// on(event: 'tap', fn: (event: interaction.InteractionEvent) => void, context?: any): EventEmitter;
+// on(event: 'touchend', fn: (event: interaction.InteractionEvent) => void, context?: any): EventEmitter;
+// on(event: 'touchendoutside', fn: (event: interaction.InteractionEvent) => void, context?: any): EventEmitter;
+// on(event: 'touchmove', fn: (event: interaction.InteractionEvent) => void, context?: any): EventEmitter;
+// on(event: 'touchstart', fn: (event: interaction.InteractionEvent) => void, context?: any): EventEmitter;
+// on(event: string, fn: Function, context?: any): EventEmitter;
+func (d *DisplayObject) On(eventName string, cb func(*InteractionEvent)) *DisplayObject {
 	d.Call("on", eventName, cb)
+	return d
 }
 
-func (d *DisplayObject) MouseDown(cb func(*InteractionEvent)) {
-	d.On("mousedown", cb)
+func (d *DisplayObject) Once(eventName string, cb func(*InteractionEvent)) *DisplayObject {
+	d.Call("once", eventName, cb)
+	return d
 }
-
-func (d *DisplayObject) MouseUp(cb func(*InteractionEvent)) {
-	d.On("mouseup", cb)
-}
-
-func (d *DisplayObject) MouseUpOutside(cb func(*InteractionEvent)) {
-	d.On("mouseupoutside", cb)
-}
-
-func (d *DisplayObject) MouseOver(cb func(*InteractionEvent)) {
-	d.On("mouseover", cb)
-}
-
-func (d *DisplayObject) MouseOut(cb func(*InteractionEvent)) {
-	d.On("mouseout", cb)
-}
-
-func (d *DisplayObject) MouseMove(cb func(*InteractionEvent)) {
-	d.On("mousemove", cb)
-}
-
-func (d *DisplayObject) TouchStart(cb func(*InteractionEvent)) {
-	d.On("touchstart", cb)
-}
-
-func (d *DisplayObject) TouchEnd(cb func(*InteractionEvent)) {
-	d.On("touchend", cb)
-}
-
-func (d *DisplayObject) TouchEndOutside(cb func(*InteractionEvent)) {
-	d.On("touchendoutside", cb)
-}
-
-func (d *DisplayObject) TouchMove(cb func(*InteractionEvent)) {
-	d.On("touchmove", cb)
-}
-
-func (d *DisplayObject) Tap(cb func(*InteractionEvent)) {
-	d.On("tap", cb)
-}
-
-func (d *DisplayObject) Click(cb func(*InteractionEvent)) {
-	d.On("click", cb)
-}
-
-// TODO: mask
-// TODO: filters
 
 // A Container represents a collection of display objects.
 type Container struct {
