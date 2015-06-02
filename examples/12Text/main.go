@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	stage    = pixi.NewContainer(0x1099bb)
-	renderer = pixi.AutoDetectRenderer(800, 600)
+	stage    = pixi.NewContainer()
+	renderer = pixi.AutoDetectRenderer(800, 600, 0x1099bb)
 )
 
 func run(t float64) {

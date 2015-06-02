@@ -14,7 +14,7 @@ const (
 )
 
 var (
-	stage    = pixi.NewContainer(0x0)
+	stage    = pixi.NewContainer()
 	renderer *pixi.Renderer
 	ctx      = pixi.NewGraphics()
 	COLOURS  = []float64{0x69D2E7, 0xA7DBD8, 0xE0E4CC, 0xF38630, 0xFA6900, 0xFF4E50, 0xF9D423}
@@ -120,7 +120,7 @@ func main() {
 	ctx.BlendMode = pixi.BlendModes.Screen
 	stage.Interactive = true
 	stage.AddChild(ctx)
-	stage.MouseMove(func(ed *pixi.EventData) {
+	stage.MouseMove(func(ed *pixi.InteractionEvent) {
 		id := ed.Data
 		makeParticles(id.Global.X, id.Global.Y, 4)
 	})

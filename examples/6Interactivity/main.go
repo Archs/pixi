@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	stage      = pixi.NewContainer(0x000000)
+	stage      = pixi.NewContainer()
 	renderer   = pixi.AutoDetectRenderer(620, 400)
 	background = pixi.SpriteFromImage("bg.jpg", true, pixi.ScaleModes.Default)
 	buttons    = make([]*Button, 0)
@@ -41,16 +41,16 @@ func NewButton(x, y float64, upTex, downTex, overTex *pixi.Texture) *Button {
 		overTex: overTex,
 	}
 
-	button.MouseUp(func(ed *pixi.EventData) { button.up(ed.Data) })
-	button.TouchEnd(func(ed *pixi.EventData) { button.up(ed.Data) })
-	button.MouseUpOutside(func(ed *pixi.EventData) { button.up(ed.Data) })
-	button.TouchEndOutside(func(ed *pixi.EventData) { button.up(ed.Data) })
+	button.MouseUp(func(ed *pixi.InteractionEvent) { button.up(ed.Data) })
+	button.TouchEnd(func(ed *pixi.InteractionEvent) { button.up(ed.Data) })
+	button.MouseUpOutside(func(ed *pixi.InteractionEvent) { button.up(ed.Data) })
+	button.TouchEndOutside(func(ed *pixi.InteractionEvent) { button.up(ed.Data) })
 
-	button.MouseDown(func(ed *pixi.EventData) { button.down(ed.Data) })
-	button.TouchStart(func(ed *pixi.EventData) { button.down(ed.Data) })
+	button.MouseDown(func(ed *pixi.InteractionEvent) { button.down(ed.Data) })
+	button.TouchStart(func(ed *pixi.InteractionEvent) { button.down(ed.Data) })
 
-	button.MouseOver(func(ed *pixi.EventData) { button.over(ed.Data) })
-	button.MouseOut(func(ed *pixi.EventData) { button.out(ed.Data) })
+	button.MouseOver(func(ed *pixi.InteractionEvent) { button.over(ed.Data) })
+	button.MouseOut(func(ed *pixi.InteractionEvent) { button.out(ed.Data) })
 
 	return button
 }

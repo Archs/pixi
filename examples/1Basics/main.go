@@ -8,9 +8,8 @@ import (
 )
 
 var (
-	// stage    = pixi.NewContainer(0x66FF99)
-	stage    = pixi.NewContainer(0xffffff)
-	renderer = pixi.AutoDetectRenderer(400, 300)
+	stage    = pixi.NewContainer()
+	renderer = pixi.AutoDetectRenderer(400, 300, 0x66FF99)
 	texture  = pixi.TextureFromImage("bunny.png", true, pixi.ScaleModes.Default)
 	bunny    = pixi.NewSprite(texture)
 )
