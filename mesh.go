@@ -24,13 +24,12 @@ type drawMODES struct {
 	//
 	// Name	Type	Description
 	// TRIANGLE_MESH	number
-	TRIANGLE_MESH float64 `js:"TRIANGLE_MESH"`
+	TRIANGLE_MESH int `js:"TRIANGLE_MESH"`
 	// TRIANGLES	number
-	TRIANGLES float64 `js:"TRIANGLES"`
+	TRIANGLES int `js:"TRIANGLES"`
 }
 
-// Base mesh class
-// PIXI.Container
+// Base mesh class Extends PIXI.Container
 type Mesh struct {
 	*Container
 	// 	uvs Float32Array
@@ -54,20 +53,56 @@ type Mesh struct {
 	DrawMode float64 `js:"drawMode"`
 }
 
-// new PIXI.mesh.Mesh(texture, vertices, uvs, indices, drawMode)
+func wrapMesh(o *js.Object) *Mesh {
+	return &Mesh{
+		Container: wrapContainer(o),
+	}
+}
 
-// Name	Type	Description
-// texture	Texture
-// The texture to use
-// vertices		optional
-// {Float32Arrif you want to specify the vertices
-// uvs	Float32Array	optional
-// if you want to specify the uvs
-// indices	Uint16Array	optional
-// if you want to specify the indices
-// drawMode	number	optional
-// the drawMode, can be any of the Mesh.DRAW_MODES consts
-// Extends
+// new PIXI.mesh.Mesh(texture, vertices, uvs, indices, drawMode)
+//
+//  Name	Type	Description
+//  texture	Texture
+//  The texture to use
+//  vertices		optional
+//  Float32Arr if you want to specify the vertices
+//  uvs	Float32Array	optional
+//  if you want to specify the uvs
+//  indices	Uint16Array	optional
+//  if you want to specify the indices
+//  drawMode	number	optional
+//  the drawMode, can be any of the Mesh.DRAW_MODES consts
+func NewMesh(texture *Texture, vertices, uvs, indices []float64, drawMode int) *Mesh {
+	return wrapMesh(pkg.Get("mesh").Get("Mesh").New(texture, vertices, uvs, indices, drawMode))
+}
 
 type Rope struct {
+	*Mesh
+}
+
+// new PIXI.mesh.Rope(texture, points)
+//
+// mesh/Rope.js, line 21
+// The rope allows you to draw a texture across several points
+// and then manipulate these points
+//
+// for (var i = 0; i < 20; i++) {
+//     points.push(new PIXI.Point(i * 50, 0));
+// };
+// var rope = new PIXI.Rope(PIXI.Texture.fromImage("snake.png"), points);
+// Name	Type	Description
+// texture	Texture
+// The texture to use on the rope.
+// points	Array
+// An array of {Point} objects to construct this rope.
+func NewRope(texture *Texture, points []*Point) *Rope {
+	o := pkg.Get("mesh").Get("Rope").New(texture, points)
+	return &Rope{wrapMesh(o)}
+}
+
+// refresh()
+//
+// Refreshes
+func (r *Rope) Refreshe() {
+	r.Call("refresh")
 }
