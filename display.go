@@ -59,11 +59,6 @@ func (d *DisplayObject) Parent() *Container {
 	return wrapContainer(d.Get("parent"))
 }
 
-// Stage the display object is connected to.
-func (d *DisplayObject) Stage() *Stage {
-	return wrapStage(d.Get("stage"))
-}
-
 // WorldAlpha is the multiplied alpha of the DisplayObject.
 func (d *DisplayObject) WorldAlpha() float64 {
 	return d.Get("worldAlpha").Float()
@@ -307,18 +302,6 @@ type SpriteBatch struct {
 
 func NewSpriteBatch() *SpriteBatch {
 	return &SpriteBatch{wrapContainer(pkg.Get("SpriteBatch").New()).Object}
-}
-
-type Stage struct {
-	*Container
-}
-
-func NewStage(background uint32) *Stage {
-	return wrapStage(pkg.Get("Stage").New(background))
-}
-
-func wrapStage(object *js.Object) *Stage {
-	return &Stage{Container: wrapContainer(object)}
 }
 
 type MovieClip struct {
