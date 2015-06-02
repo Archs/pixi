@@ -50,7 +50,7 @@ type InteractionData struct {
 	*js.Object
 
 	// This point stores the global coords of where the touch/mouse event happened
-	Global Point `js:"global"`
+	Global *Point `js:"global"`
 	// The target Sprite that was interacted with
 	Target *Sprite `js:"target"`
 	// When passed to an event handler, this will be the original DOM Event that was captured
@@ -60,12 +60,25 @@ type InteractionData struct {
 func wrapInteractionData(object *js.Object) *InteractionData {
 	return &InteractionData{
 		Object: object,
-		// Global:        Point{Object: object.Get("global")},
-		// Target:        wrapSprite(object.Get("target")),
-		// OriginalEvent: object.Get("originalEvent"),
 	}
 }
 
-func (id *InteractionData) LocalPosition(do displayObject) Point {
-	return Point{Object: id.Call("getLocalPosition", do.displayer())}
+func (id *InteractionData) LocalPosition(do displayObject) *Point {
+	return &Point{Object: id.Object.Call("getLocalPosition", do.displayer())}
+}
+
+type EventData struct {
+	*js.Object
+	// stopped: false,
+	Stopped bool `js:"stopped"`
+	// target: null,
+	Target *DisplayObject `js:"target"`
+	// type: null,
+	Type string `js:"type"`
+	// data: this.mouse,
+	Data *InteractionData `js:"data"`
+	// stopPropagation:function(){
+	//     this.stopped = true;
+	// }
+	StopPropagation func() `js:"stopPropagation"`
 }
