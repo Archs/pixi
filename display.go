@@ -8,21 +8,23 @@ type displayObject interface {
 
 type DisplayObject struct {
 	*js.Object
+	Name string `js:"name"`
 	// The coordinate of the object relative to the local coordinates of the parent.
 	Position *Point `js:"position"`
 	Scale    *Point `js:"scale"`
 	// The pivot point of the displayObject that it rotates around
-	Pivot         *Point  `js:"pivot"`
-	Rotation      float64 `js:"rotation"`
-	Alpha         float64 `js:"alpha"`
-	Visible       bool    `js:"visible"`
-	ButtonMode    bool    `js:"buttonMode"`
-	Renderable    bool    `js:"renderable"`
-	Interactive   bool    `js:"interactive"`
-	DefaultCursor string  `js:"defaultCursor"`
-	CacheAsBitmap bool    `js:"cacheAsBitmap"`
-	X             float64 `js:"x"`
-	Y             float64 `js:"y"`
+	Pivot               *Point  `js:"pivot"`
+	Rotation            float64 `js:"rotation"`
+	Alpha               float64 `js:"alpha"`
+	Visible             bool    `js:"visible"`
+	ButtonMode          bool    `js:"buttonMode"`
+	Renderable          bool    `js:"renderable"`
+	Interactive         bool    `js:"interactive"`
+	InteractiveChildren bool    `js:"interactiveChildren"`
+	DefaultCursor       string  `js:"defaultCursor"`
+	CacheAsBitmap       bool    `js:"cacheAsBitmap"`
+	X                   float64 `js:"x"`
+	Y                   float64 `js:"y"`
 	// filterArea Rectangle
 	//
 	// The area the filter is applied to. This is used as more of an optimisation rather than figuring out the dimensions of the displayObject each frame you can set this rectangle
@@ -113,6 +115,12 @@ func (d *DisplayObject) Destroy() {
 //  Point	A point object representing the position of this object
 func (d *DisplayObject) ToGlobal(position Point) *Point {
 	o := d.Call("toGlobal", position)
+	return &Point{Object: o}
+}
+
+// getGlobalPosition(point: Point): Point;
+func (d *DisplayObject) GetGlobalPosition(position Point) *Point {
+	o := d.Call("getGlobalPosition", position)
 	return &Point{Object: o}
 }
 
@@ -232,6 +240,11 @@ func (d Container) AddChild(do displayObject) {
 // AddChildAt adds a child at the specified index.
 func (d Container) AddChildAt(do displayObject, index int) {
 	d.Call("addChildAt", do.displayer(), index)
+}
+
+// getChildByName(name: string): DisplayObject;
+func (d Container) GetChildByName(name string) *DisplayObject {
+	return wrapDisplayObject(d.Call("getChildByName", name))
 }
 
 // ChildAt returns the child at the specified index.
