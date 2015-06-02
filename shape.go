@@ -4,6 +4,10 @@ import (
 	"github.com/gopherjs/gopherjs/js"
 )
 
+var (
+	SHAPES = shapes{Object: pkg.Get("SHAPES")}
+)
+
 // Polygon, Circle, Rectangle, Ellipse implements this interface
 type Shape interface {
 	shape() *js.Object
@@ -16,20 +20,6 @@ type basicShape struct {
 func wrapBasicShape(o *js.Object) *basicShape {
 	return &basicShape{o: o}
 }
-
-var (
-	// Name    Type    Description
-	// SHAPES  object
-	// Properties
-
-	// Name    Type    Default Description
-	// POLY    object  0
-	// RECT    object  1
-	// CIRC    object  2
-	// ELIP    object  3
-	// RREC    object  4
-	SHAPES = shapes{Object: pkg.Get("SHAPES")}
-)
 
 type shapes struct {
 	*js.Object
