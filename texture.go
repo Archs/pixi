@@ -83,7 +83,7 @@ type Texture struct {
 
 type RenderTexture struct {
 	*Texture
-	Renderer *Renderer `js"clone"` // CanvasRenderer | WebGLRenderer;
+	Renderer *Renderer `js"renderer"` // CanvasRenderer | WebGLRenderer;
 
 	// render(displayObject *DisplayObject, matrix Matrix, clear bool, updateTransform bool)
 	Resize    func(width float64, height float64, updateBase bool) `js:"resize"`
@@ -93,6 +93,32 @@ type RenderTexture struct {
 	GetPixel  func(x float64, y float64) []float64                 `js:"getPixel"`
 	GetBase64 func() string                                        `js:"getBase64"`
 	GetCanvas func() *js.Object                                    `js:"getCanvas"`
+}
+
+// func (r RenderTexture) Clone() *RenderTexture {
+// 	return &RenderTexture{
+// 		Texture: *wrapTexture(r.Call("clone")),
+// 	}
+// }
+
+// render(displayObject, matrix, clear, updateTransform)
+// Draw/render the given DisplayObject onto the texture.
+//
+// The displayObject and descendents are transformed during this operation. If updateTransform is true then the transformations will be restored before the method returns. Otherwise it is up to the calling code to correctly use or reset the transformed display objects.
+//
+// The display object is always rendered with a worldAlpha value of 1.
+//
+//   Name    Type    Default Description
+//   displayObject   DisplayObject
+//   The display object to render this texture on
+//   matrix  Matrix      optional
+//   Optional matrix to apply to the display object before rendering.
+//   clear   boolean false   optional
+//   If true the texture will be cleared before the displayObject is drawn
+//   updateTransform boolean true    optional
+//   If true the displayObject's worldTransform/worldAlpha and all children transformations will be restored. Not restoring this information will be a little faster.
+func (r *RenderTexture) Render(displayObject displayObject, clear bool, updateTransform bool) {
+	r.Call("render", displayObject.displayer(), nil, clear, updateTransform)
 }
 
 func wrapTexture(o *js.Object) *Texture {
@@ -157,26 +183,6 @@ func TextureFromVideoUrl(videoUrl string, scaleMode int) *Texture {
 //  Texture
 func TextureFromCanvas(canvas *js.Object, scaleMode int) *Texture {
 	return &Texture{Object: pkg.Get("Texture").Call("fromCanvas", canvas, scaleMode)}
-}
-
-// render(displayObject, matrix, clear, updateTransform)
-// Draw/render the given DisplayObject onto the texture.
-//
-// The displayObject and descendents are transformed during this operation. If updateTransform is true then the transformations will be restored before the method returns. Otherwise it is up to the calling code to correctly use or reset the transformed display objects.
-//
-// The display object is always rendered with a worldAlpha value of 1.
-//
-//   Name    Type    Default Description
-//   displayObject   DisplayObject
-//   The display object to render this texture on
-//   matrix  Matrix      optional
-//   Optional matrix to apply to the display object before rendering.
-//   clear   boolean false   optional
-//   If true the texture will be cleared before the displayObject is drawn
-//   updateTransform boolean true    optional
-//   If true the displayObject's worldTransform/worldAlpha and all children transformations will be restored. Not restoring this information will be a little faster.
-func (r *RenderTexture) Render(displayObject *DisplayObject, clear bool, updateTransform bool) {
-	r.Call("render", displayObject, nil, clear, updateTransform)
 }
 
 // new PIXI.RenderTexture(renderer, width, height, scaleMode, resolution)
