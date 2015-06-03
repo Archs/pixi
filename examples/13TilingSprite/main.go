@@ -9,7 +9,7 @@ import (
 
 var (
 	stage        = pixi.NewContainer()
-	renderer     = pixi.AutoDetectRenderer(800, 600, 0x1099bb)
+	renderer     = pixi.AutoDetectRenderer(800, 600)
 	texture      = pixi.TextureFromImage("img/p2.jpeg", false, pixi.ScaleModes.Default)
 	tilingSprite = pixi.NewTilingSprite(texture, renderer.Width, renderer.Height)
 
@@ -26,6 +26,7 @@ func run(t float64) {
 }
 
 func main() {
+	renderer.BackgroundColor = 0xffffff
 	stage.AddChild(tilingSprite)
 	dom.OnDOMContentLoaded(func() {
 		el := dom.Wrap(renderer.View)

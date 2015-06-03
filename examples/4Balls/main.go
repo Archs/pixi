@@ -19,7 +19,7 @@ var (
 	sy     = 1.0
 
 	stage    = pixi.NewContainer()
-	renderer = pixi.AutoDetectRenderer(int(width), int(height), 0x000000)
+	renderer = pixi.AutoDetectRenderer(int(width), int(height))
 	texture  = pixi.TextureFromImage("bubble_32x32.png", false, pixi.ScaleModes.Default)
 	balls    = make([]*Ball, 0)
 )
