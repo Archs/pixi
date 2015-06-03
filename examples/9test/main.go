@@ -11,7 +11,7 @@ import (
 
 var (
 	stage    = pixi.NewContainer()
-	render   = pixi.AutoDetectRenderer(300, 300)
+	render   *pixi.Renderer
 	sprite   = pixi.SpriteFromImage("img/bunny.png", false, pixi.ScaleModes.Default)
 	lastTime = float64(0)
 	stepX    = float64(5)
@@ -49,9 +49,12 @@ func run() {
 }
 
 func main() {
+	ops := pixi.NewRendererOptions()
+	ops.Transparent = true
+	render = pixi.AutoDetectRenderer(300, 300, ops)
 	stage.Interactive = true
 	stage.HitArea = pixi.NewRectangle(0, 0, 300, 300)
-	// render.BackgroundColor = 0xff0000
+	render.BackgroundColor = 0xff0000 // transparent works first
 	render.Transparent = true
 	dom.OnDOMContentLoaded(func() {
 		dom.Body().Style.SetProperty("background", "blue")
