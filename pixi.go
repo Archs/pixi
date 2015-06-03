@@ -15,7 +15,7 @@ var (
 
 	ScaleModes   = scaleModes{Object: pkg.Get("SCALE_MODES")}
 	BlendModes   = blendModes{Object: pkg.Get("BLEND_MODES")}
-	RENDERERTYPE = rendererType{Object: pkg.Get("RENDERER_TYPE")}
+	RendererType = rendererType{Object: pkg.Get("RENDERER_TYPE")}
 )
 
 // PIXI.RENDERER_TYPE
