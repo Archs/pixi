@@ -9,7 +9,7 @@ import (
 
 var (
 	stage    = pixi.NewContainer()
-	renderer = pixi.AutoDetectRenderer(400, 300, 0x66FF99)
+	renderer = pixi.AutoDetectRenderer(400, 300)
 	texture  = pixi.TextureFromImage("bunny.png", true, pixi.ScaleModes.Default)
 	bunny    = pixi.NewSprite(texture)
 )
@@ -22,7 +22,7 @@ func animate(t float64) {
 
 func main() {
 	js.Global.Get("document").Get("body").Call("appendChild", renderer.View)
-
+	renderer.BackgroundColor = 0x66FF99
 	bunny.Anchor.SetTo(0.5)
 	bunny.Position.Set(200, 150)
 

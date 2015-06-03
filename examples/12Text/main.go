@@ -10,7 +10,7 @@ import (
 
 var (
 	stage    = pixi.NewContainer()
-	renderer = pixi.AutoDetectRenderer(800, 600, 0x1099bb)
+	renderer = pixi.AutoDetectRenderer(800, 600)
 )
 
 func run(t float64) {
@@ -34,6 +34,7 @@ func main() {
 	txt.Anchor.SetTo(0)
 	txt.Position.Set(20, 20)
 	stage.AddChild(txt)
+	renderer.BackgroundColor = 0x1099bb
 	dom.OnDOMContentLoaded(func() {
 		el := dom.Wrap(renderer.View)
 		dom.Body().AppendChild(el)

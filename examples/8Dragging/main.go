@@ -9,7 +9,7 @@ import (
 
 var (
 	stage    = pixi.NewContainer()
-	renderer = pixi.AutoDetectRenderer(800, 600, 0x97C56E)
+	renderer = pixi.AutoDetectRenderer(800, 600)
 )
 
 func animate(t float64) {
@@ -68,7 +68,7 @@ func (ds *DraggableSprite) move(data *pixi.InteractionData) {
 
 func main() {
 	js.Global.Get("document").Get("body").Call("appendChild", renderer.View)
-
+	renderer.BackgroundColor = 0x97C56E
 	stage.AddChild(NewDraggableSprite("bunny.png", 400, 300))
 
 	raf.RequestAnimationFrame(animate)

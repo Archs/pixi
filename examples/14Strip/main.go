@@ -9,7 +9,7 @@ import (
 
 var (
 	stage    = pixi.NewContainer()
-	renderer = pixi.AutoDetectRenderer(800, 600, 0xffffff)
+	renderer = pixi.AutoDetectRenderer(800, 600)
 
 	snakeLen = 918.0
 )

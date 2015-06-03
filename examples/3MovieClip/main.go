@@ -13,7 +13,7 @@ import (
 
 var (
 	stage      = pixi.NewContainer()
-	renderer   = pixi.AutoDetectRenderer(800, 600, 0xFFFFFF)
+	renderer   = pixi.AutoDetectRenderer(800, 600)
 	explosions = make([]*pixi.Sprite, 0)
 	count      = 0.0
 )
@@ -45,7 +45,7 @@ func animate(t float64) {
 
 func main() {
 	js.Global.Get("document").Get("body").Call("appendChild", renderer.View)
-
+	renderer.BackgroundColor = 0xFFFFFF
 	pixi.Loader.Add("name", "SpriteSheet.json", onAssetsLoaded)
 	pixi.Loader.Load()
 }

@@ -12,7 +12,7 @@ import (
 
 var (
 	stage    = pixi.NewContainer()
-	renderer = pixi.AutoDetectRenderer(800, 600, 0xFFFFFF)
+	renderer = pixi.AutoDetectRenderer(800, 600)
 	group    = pixi.NewContainer()
 	aliens   = make([]*pixi.Sprite, 0)
 	count    = 0.0

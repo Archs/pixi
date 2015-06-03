@@ -8,7 +8,7 @@ import (
 
 var (
 	stage    = pixi.NewContainer()
-	renderer = pixi.AutoDetectRenderer(800, 600, 0x00000)
+	renderer = pixi.AutoDetectRenderer(800, 600)
 )
 
 func animate(t float64) {
