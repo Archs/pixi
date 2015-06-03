@@ -61,6 +61,9 @@ func animate(t float64) {
 }
 
 func main() {
+	if renderer.Type == pixi.RendererType.WEBGL {
+		maggotNum = 1000
+	}
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < maggotNum; i++ {
 		sprites.AddChild(newMaggot())
