@@ -44,7 +44,7 @@ type Renderer struct {
 	// The returntype of the renderer.
 	// Default Value:
 	// CONT.RENDERER_TYPE.UNKNOWN
-	Type bool `js:"type"`
+	Type int `js:"type"`
 }
 
 func (r Renderer) Render(c *Container) {
