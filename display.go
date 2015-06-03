@@ -42,15 +42,26 @@ type DisplayObject struct {
 	Interactive         bool    `js:"interactive"`
 	InteractiveChildren bool    `js:"interactiveChildren"`
 	DefaultCursor       string  `js:"defaultCursor"`
-	CacheAsBitmap       bool    `js:"cacheAsBitmap"`
-	X                   float64 `js:"x"`
-	Y                   float64 `js:"y"`
+
+	// Set CacheAsBitmap to true if you want this display object to be cached as a bitmap.
+	// * This basically takes a snap shot of the display object as it is at that moment.
+	//   It can provide a performance benefit for complex static displayObjects.
+	// * When cacheAsBitmap is set to true the graphics object will be rendered as if it was a sprite.
+	// * This is useful if your graphics element does not change often, as it will speed up the rendering
+	// * of the object in exchange for taking up texture memory. It is also useful if you need the graphics
+	// * object to be anti-aliased, because it will be rendered using canvas. This is not recommended if
+	// * you are constantly redrawing the graphics element.
+	CacheAsBitmap bool    `js:"cacheAsBitmap"`
+	X             float64 `js:"x"`
+	Y             float64 `js:"y"`
+
 	// for pure containers only, indicates the mouse/touch event response area
 	// Sprite Graphics don't need this
 	HitArea *Rectangle `js:"hitArea"`
-	// filterArea Rectangle
-	//
-	// The area the filter is applied to. This is used as more of an optimisation rather than figuring out the dimensions of the displayObject each frame you can set this rectangle
+
+	// The area the filter is applied to. This is used as more of an optimisation
+	// rather than figuring out the dimensions of the displayObject each frame
+	// you can set this rectangle
 	FilterArea Rectangle `js:"filterArea"`
 	//
 	// 	filters Array.<Filter>
@@ -59,13 +70,12 @@ type DisplayObject struct {
 	// IMPORTANT: This is a webGL only feature and will be ignored by the canvas renderer. To remove filters simply set this property to 'null'
 	filters []*js.Object `js:"filters"`
 
-	// mask Graphics
-	//
 	// Sets a mask for the displayObject.
 	// A mask is an object that limits the visibility of an object to the shape of the mask applied to it.
 	// In PIXI a regular mask must be a PIXI.Graphics object. This allows for much faster masking in canvas as it utilises shape clipping.
 	// To remove a mask, set this property to null.
 	Mask *Graphics `js:"mask"`
+
 	// a gopherjs specific DisplayObject update function
 	// which can be used in the container.Children/ChildAt/GetChildByName returned instance
 	//
