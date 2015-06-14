@@ -7,7 +7,7 @@ We use gopkg.in for imports in order to provide different versions of the librar
 Currently v2.x.x and v3.x.x are supported.
 
 ```bash
-go get gopkg.in/Archs/pixi.v3
+go get gopkg.in/ajhager/pixi.v3
 ```
 
 ## Example
@@ -20,7 +20,7 @@ package main
 import (
 	"github.com/Archs/js/dom"
 	"github.com/Archs/js/raf"
-	"gopkg.in/Archs/pixi.v3"
+	"gopkg.in/ajhager/pixi.v3"
 )
 
 var (
