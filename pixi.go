@@ -1,7 +1,6 @@
 package pixi
 
 import (
-	_ "github.com/Archs/pixi/shim" // Shim library javascript code.
 	"github.com/gopherjs/gopherjs/js"
 )
 
